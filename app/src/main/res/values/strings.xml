@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Library</string>
+    <string name="text_borrows">Twoje wypożyczenia :</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+    <string name="text_login">Login</string>
+    <string name="text_register">Register</string>
+    <string name="error_message_name">Enter Full Name</string>
+    <string name="error_message_email">Enter Valid Email</string>
+    <string name="error_message_age">Enter Age</string>
+    <string name="error_message_password">Enter Password</string>
+    <string name="success_message">Registration Successful</string>
+    <string name="text_not_member">No account yet? Create one</string>
+    <string name="text_already_member">Already a member? Login</string>
+    <string name="error_email_empty">Email Cannot Be Empty</string>
+    <string name="error_password_match">Password Does Not Matches</string>
+    <string name="error_valid_email_password">Wrong Email or Password</string>
+    <string name="action_my_profile">Mój profil</string>
+    <string name="action_login">Wyloguj</string>
+    <string name="text_autor">Autor</string>
+    <string name="text_isbn">ISBN</string>
+    <string name="text_hello">Witaj,</string>
+    <string name="text_title">Tytuł</string>
+    <string name="text_description">Opis...</string>
+    <string name="text_date">Wpisz datę odbioru książki :</string>
+    <string name="text_date_borrow">Data wypożyczenia</string>
+    <string name="text_date_return">Data zwrotu</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
