@@ -13,13 +13,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
 import mglowinski.library.R;
+import mglowinski.library.api.ApiUtils;
+import mglowinski.library.api.SOService;
 import mglowinski.library.model.Book;
+import mglowinski.library.model.Borrow;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RentBookFragment extends Fragment {
 
@@ -30,6 +37,9 @@ public class RentBookFragment extends Fragment {
     private AppCompatTextView isbn;
     private AppCompatTextView description;
     private Button button;
+    private SOService mService;
+    private String userId;
+    private DatePicker datePicker;
 
     public RentBookFragment() {
         // Required empty public constructor
@@ -44,6 +54,8 @@ public class RentBookFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         book = (Book) getArguments().getSerializable("book");
+        userId = (String )getArguments().getSerializable("userId");
+        mService = ApiUtils.getSOService();
     }
 
     @Override
@@ -61,10 +73,11 @@ public class RentBookFragment extends Fragment {
         isbn = view.findViewById(R.id.rentBookIsbnId);
         description = view.findViewById(R.id.descriptionId);
         button = view.findViewById(R.id.submitButtonId);
-        title.setText(book.getBook_title());
-        author.setText(book.getBook_author());
-        isbn.setText(book.getBook_isbn());
-        description.setText(book.getBook_description());
+        datePicker = view.findViewById(R.id.datePicker);
+        title.setText(book.getBookTitle());
+        author.setText(book.getBookAuthor());
+        isbn.setText(book.getBookIsbn());
+        description.setText(book.getBookDescription());
         description.setMovementMethod(new ScrollingMovementMethod());
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +88,34 @@ public class RentBookFragment extends Fragment {
                 snack.show();
                 FragmentManager fm = getFragmentManager();
                 fm.popBackStack();
+                borrowBook();
+
+            }
+        });
+    }
+
+    public void borrowBook() {
+        String date;
+        Borrow borrow = new Borrow();
+        borrow.setUserId(userId);
+        borrow.setBook(book);
+        int day = datePicker.getDayOfMonth();
+        int month = datePicker.getMonth() + 1;
+        int year = datePicker.getYear();
+        if(month < 10)
+            date = Integer.toString(day) + ".0" + Integer.toString(month) + "." + Integer.toString(year);
+        else
+            date = Integer.toString(day) + "." + Integer.toString(month) + "." + Integer.toString(year);
+        borrow.setDateBorrow(date);
+        mService.createBorrow(borrow).enqueue(new Callback<Borrow>() {
+            @Override
+            public void onResponse(Call<Borrow> call, Response<Borrow> response) {
+                Log.e(TAG, "GIT");
+            }
+
+            @Override
+            public void onFailure(Call<Borrow> call, Throwable t) {
+                Log.e(TAG, "FAIL");
             }
         });
     }

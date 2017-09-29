@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.AppCompatButton;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -149,7 +150,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public boolean check(final String email, final String password) {
         if(userList.size() != 0) {
             for (int i = 0; i < userList.size(); i++) {
-                if (userList.get(i).getUser_email().equals(email) && userList.get(i).getUser_password().equals(password)) {
+                if (userList.get(i).getUserEmail().equals(email) && userList.get(i).getUserPassword().equals(password)) {
                     is = true;
                     position = i;
                 }
@@ -167,7 +168,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
-
+                t.printStackTrace();
             }
         });
     }

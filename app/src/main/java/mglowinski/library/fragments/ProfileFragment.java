@@ -71,8 +71,8 @@ public class ProfileFragment extends Fragment {
         userNameView = view.findViewById(R.id.textViewName);
         userIdentityCardNumber = view.findViewById(R.id.textViewIndex);
         noBorrowsView = view.findViewById(R.id.noBorrowsId);
-        userNameView.setText(user.getUser_name() + " " + user.getUser_surname());
-        userIdentityCardNumber.setText(user.getUser_identityCardNumber());
+        userNameView.setText(user.getUserName() + " " + user.getUserSurname());
+        userIdentityCardNumber.setText(user.getUserIdentityCardNumber());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView = view.findViewById(R.id.recyclerViewBorrows);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -96,7 +96,7 @@ public class ProfileFragment extends Fragment {
     public void userBorrows(List<Borrow> borrowListFromResponse) {
         if(borrowListFromResponse != null) {
             for (Borrow borrow : borrowListFromResponse) {
-                if (borrow.getUser_id().equals(user.getUser_id()))
+                if (borrow.getUserId().equals(user.getUserId()))
                     userBorrowList.add(borrow);
             }
             if(userBorrowList != null) {

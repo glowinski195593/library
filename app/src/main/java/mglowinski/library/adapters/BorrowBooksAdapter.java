@@ -39,12 +39,12 @@ public class BorrowBooksAdapter extends RecyclerView.Adapter<BorrowBooksAdapter.
 
     @Override
     public void onBindViewHolder(UserViewHolder holder, int position) {
-        holder.textViewTitle.setText(borrowList.get(position).getBook().getBook_title());
-        holder.textViewAuthor.setText(borrowList.get(position).getBook().getBook_author());
-        holder.textViewDateBorrow.setText(borrowList.get(position).getDate_borrow());
+        holder.textViewTitle.setText(borrowList.get(position).getBook().getBookTitle());
+        holder.textViewAuthor.setText(borrowList.get(position).getBook().getBookAuthor());
+        holder.textViewDateBorrow.setText(borrowList.get(position).getDateBorrow());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
         try {
-            Date date = simpleDateFormat.parse(borrowList.get(position).getDate_borrow());
+            Date date = simpleDateFormat.parse(borrowList.get(position).getDateBorrow());
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
             cal.add(Calendar.MONTH, 3);

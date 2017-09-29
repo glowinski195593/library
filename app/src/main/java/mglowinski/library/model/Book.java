@@ -10,10 +10,10 @@ import lombok.Data;
 @Data
 public class Book implements Serializable {
 
-    private String book_id;
-    private String book_title;
-    private String book_author;
-    private String book_isbn;
-    private String book_description;
-    private String book_category;
+    private String bookId;
+    private String bookTitle;
+    private String bookAuthor;
+    private String bookIsbn;
+    private String bookDescription;
+    private String bookCategory;
 }

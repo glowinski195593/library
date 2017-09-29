@@ -12,6 +12,7 @@
         android:descendantFocusability="blocksDescendants"
         card_view:cardBackgroundColor="@color/colorCard"
         card_view:cardCornerRadius="5dp"
+        android:layout_marginBottom="6dp"
         card_view:cardElevation="2dp"
         card_view:cardMaxElevation="4dp">
 

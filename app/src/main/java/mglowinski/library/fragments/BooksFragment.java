@@ -49,7 +49,7 @@ public class BooksFragment extends Fragment {
     private List<Book> listBooks = new ArrayList<>();
     private List<Book> listBooksFilter = new ArrayList<>();
     private List<Book> listActualViewBooks;
-    private Map<Integer, Integer> mapAvailability = new HashMap<>();
+    private Map<String, Integer> mapAvailability = new HashMap<>();
     private List<Borrow> borrowListFromResponse;
     private SOService mService;
     private SearchView searchView;
@@ -74,7 +74,7 @@ public class BooksFragment extends Fragment {
         setHasOptionsMenu(true);
         mService = ApiUtils.getSOService();
         //hardcode for test
-        user = new User("1", "maciej", "Mck00@o2.pl", "p");
+        user = new User("59cdfd786eee35ffd5d73fa9", "maciej", "mck00@o2.pl", "p");
         //user = (User) getArguments().getSerializable("user");
     }
 
@@ -94,7 +94,7 @@ public class BooksFragment extends Fragment {
         spinner = getView().findViewById(R.id.spinner);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        booksAdapter = new BooksAdapter(mapAvailability, getContext(), ALPHABETICAL_COMPARATOR);
+        booksAdapter = new BooksAdapter(mapAvailability, getContext(), ALPHABETICAL_COMPARATOR, user.getUserId());
         recyclerView.setAdapter(booksAdapter);
         loadBorrowBooks();
         searchView = view.findViewById(R.id.searchView);
@@ -108,7 +108,7 @@ public class BooksFragment extends Fragment {
 
         final List<Book> filteredModelList = new ArrayList<>();
         for (Book model : models) {
-            final String text = model.getBook_title().toLowerCase();
+            final String text = model.getBookTitle().toLowerCase();
             if (text.contains(lowerCaseQuery)) {
                 filteredModelList.add(model);
             }
@@ -153,13 +153,13 @@ public class BooksFragment extends Fragment {
         for (int i = 0; i < listBooks.size(); i++) {
             isBorrow = false;
             for (int j = 0; j < listBorrows.size(); j++) {
-                if (listBooks.get(i).getBook_id().equals(listBorrows.get(j).getBook().getBook_id())) {
-                    mapAvailability.put(i, 1);
+                if (listBooks.get(i).getBookId().equals(listBorrows.get(j).getBook().getBookId())) {
+                    mapAvailability.put(listBooks.get(i).getBookId(), 1);
                     isBorrow = true;
                 }
             }
             if (isBorrow == false)
-                mapAvailability.put(i, 0);
+                mapAvailability.put(listBooks.get(i).getBookId(), 0);
         }
     }
 
@@ -170,7 +170,7 @@ public class BooksFragment extends Fragment {
         String category;
         for (int i = 0; i < listBooks.size(); i++) {
             exist = false;
-            category = listBooks.get(i).getBook_category();
+            category = listBooks.get(i).getBookCategory();
             for (String str : categoriesList) {
                 if (category.equals(str)) {
                     exist = true;
@@ -180,6 +180,10 @@ public class BooksFragment extends Fragment {
                 categoriesList.add(category);
             }
         }
+        showBooksForChosenCategory();
+    }
+
+    public void showBooksForChosenCategory() {
         spinAdapter = new CustomSpinnerAdapter(
                 getContext(), categoriesList);
         spinner.setAdapter(spinAdapter);
@@ -192,7 +196,7 @@ public class BooksFragment extends Fragment {
                     String category = categoriesList.get(i);
                     listBooksFilter.clear();
                     for (Book book : listBooks) {
-                        if (book.getBook_category().equals(category)) {
+                        if (book.getBookCategory().equals(category)) {
                             listBooksFilter.add(book);
                         }
                     }
@@ -261,7 +265,7 @@ public class BooksFragment extends Fragment {
     private static final Comparator<Book> ALPHABETICAL_COMPARATOR = new Comparator<Book>() {
         @Override
         public int compare(Book a, Book b) {
-            return a.getBook_title().compareTo(b.getBook_title());
+            return a.getBookTitle().compareTo(b.getBookTitle());
         }
     };
 }

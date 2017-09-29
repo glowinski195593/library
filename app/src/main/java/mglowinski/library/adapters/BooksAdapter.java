@@ -20,13 +20,15 @@ import java.util.Map;
 import mglowinski.library.R;
 import mglowinski.library.fragments.RentBookFragment;
 import mglowinski.library.model.Book;
+import mglowinski.library.model.User;
 
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder> {
 
-    private Map<Integer, Integer> map;
+    private Map<String, Integer> map;
     private Boolean check = false;
     private Context context;
     private Comparator<Book> comparator;
+    private String userId;
 
     private final SortedList<Book> sortedList = new SortedList<>(Book.class, new SortedList.Callback<Book>() {
         @Override
@@ -84,10 +86,11 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
         }
     }
 
-    public BooksAdapter(Map<Integer, Integer> map, Context context, Comparator<Book> comparator) {
+    public BooksAdapter(Map<String, Integer> map, Context context, Comparator<Book> comparator, String userId) {
         this.map = map;
         this.context = context;
         this.comparator = comparator;
+        this.userId = userId;
     }
 
     public void replaceAll(List<Book> models) {
@@ -136,7 +139,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int listPosition) {
         final Book book = sortedList.get(listPosition);
-        int i = Integer.parseInt(book.getBook_id());
+        String i = book.getBookId();
         final int availability = map.get(i);
         if (availability == 0) {
             holder.imageBookAvaible.setVisibility(View.VISIBLE);
@@ -146,6 +149,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("book", book);
+                    bundle.putSerializable("userId", userId);
                     RentBookFragment rentBookFragment = new RentBookFragment();
                     rentBookFragment.setArguments(bundle);
                     FragmentActivity activity = (FragmentActivity) context;
@@ -161,8 +165,8 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
             holder.imageBookNotAvaible.setVisibility(View.VISIBLE);
             holder.button.setVisibility(View.GONE);
         }
-        holder.title.setText(book.getBook_title());
-        holder.author.setText(book.getBook_author());
+        holder.title.setText(book.getBookTitle());
+        holder.author.setText(book.getBookAuthor());
     }
 
     @Override
@@ -170,7 +174,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
         return sortedList.size();
     }
 
-    public void updateAnswers(List<Book> books, Map<Integer, Integer> map) {
+    public void updateAnswers(List<Book> books, Map<String, Integer> map) {
         sortedList.clear();
         sortedList.addAll(books);
         this.map = map;

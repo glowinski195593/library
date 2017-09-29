@@ -10,17 +10,21 @@ import mglowinski.library.model.Book;
 import mglowinski.library.model.Borrow;
 import mglowinski.library.model.User;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 
 public interface SOService {
 
-    @GET("59c9047e3f0000180183f68a")
+    @GET("users")
     Call<List<User>> getUsers();
 
-    @GET("59cb9af4260000e5006b755b")
+    @GET("books")
     Call<List<Book>> getBooks();
 
-    @GET("59cb9b43260000cf006b755d")
+    @GET("borrows")
     Call<List<Borrow>> getBorrows();
 
+    @POST("borrows/createBorrow")
+    Call<Borrow> createBorrow(@Body Borrow borrow);
 }

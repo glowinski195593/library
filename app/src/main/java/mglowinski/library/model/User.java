@@ -10,18 +10,18 @@ import lombok.Data;
 @Data
 public class User implements Serializable {
 
-    private String user_id;
-    private String user_name;
-    private String user_surname;
-    private String user_identityCardNumber;
-    private String user_email;
-    private String user_password;
+    private String userId;
+    private String userName;
+    private String userSurname;
+    private String userIdentityCardNumber;
+    private String userEmail;
+    private String userPassword;
 
-    public User(String user_id, String user_name, String user_email, String user_password) {
-        this.user_id = user_id;
-        this.user_name = user_name;
-        this.user_email = user_email;
-        this.user_password = user_password;
+    public User(String userId, String userName, String userEmail, String userPassword) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userEmail = userEmail;
+        this.userPassword = userPassword;
     }
 
 }

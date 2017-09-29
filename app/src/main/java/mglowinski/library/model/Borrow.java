@@ -10,8 +10,8 @@ import lombok.Data;
 @Data
 public class Borrow implements Serializable {
 
-    private String borrow_id;
-    private String user_id;
+    private String borrowId;
+    private String userId;
     private Book book;
-    private String date_borrow;
+    private String dateBorrow;
 }
