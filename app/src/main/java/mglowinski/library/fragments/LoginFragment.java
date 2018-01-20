@@ -19,11 +19,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.mindrot.jbcrypt.BCrypt;
+
+import java.util.Base64;
 import java.util.List;
 
 import mglowinski.library.R;
-import mglowinski.library.api.ApiUtils;
 import mglowinski.library.api.SOService;
+import mglowinski.library.api.ServiceGenerator;
 import mglowinski.library.model.User;
 import mglowinski.library.validators.InputValidation;
 import retrofit2.Call;
@@ -45,10 +48,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private InputValidation inputValidation;
 
-    private List<User> userList;
-    private boolean is = false;
-    private int position;
-    private SOService mService;
+    private User user;
+    private SOService service;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -62,7 +63,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mService = ApiUtils.getSOService();
     }
 
     @Override
@@ -74,6 +74,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        Log.e("COUNT LOGIN",Integer.toString(getFragmentManager().getBackStackEntryCount()));
         super.onViewCreated(view, savedInstanceState);
         nestedScrollView = view.findViewById(R.id.nestedScrollView);
         textInputLayoutEmail = view.findViewById(R.id.textInputLayoutEmail);
@@ -81,7 +82,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         textInputEditTextEmail = view.findViewById(R.id.textInputEditTextEmail);
         textInputEditTextPassword = view.findViewById(R.id.textInputEditTextPassword);
         appCompatButtonLogin = view.findViewById(R.id.appCompatButtonLogin);
-        getUsers();
         appCompatButtonLogin.setOnClickListener(this);
         inputValidation = new InputValidation(getContext());
     }
@@ -90,6 +90,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.appCompatButtonLogin:
+                service = ServiceGenerator.createService(SOService.class, textInputEditTextEmail.getText().toString().trim(), textInputEditTextPassword.getText().toString().trim());
                 verifyFromSQLite();
                 break;
         }
@@ -109,25 +110,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             return;
         } else {
             if (isNetworkAvailable()) {
-                if (check(textInputEditTextEmail.getText().toString().trim(), textInputEditTextPassword.getText().toString().trim())) {
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    BooksFragment booksFragment = new BooksFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("user", userList.get(position));
-                    booksFragment.setArguments(bundle);
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.frame_main_fragment_container, booksFragment, BooksFragment.TAG)
-                            .addToBackStack(null)
-                            .commit();
-                    emptyInputEditText();
-
-                } else {
-                    // Snack Bar to show success message that record is wrong
-                    Snackbar snack = Snackbar.make(getView(), getString(R.string.error_valid_email_password), Snackbar.LENGTH_LONG);
-                    TextView tv = snack.getView().findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    snack.show();
-                }
+                getUser(textInputEditTextEmail.getText().toString().trim());
             }
             else {
                 Snackbar snack = Snackbar.make(getView(), "Brak dostępu do internetu :(", Snackbar.LENGTH_LONG);
@@ -144,30 +127,28 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private void emptyInputEditText() {
         textInputEditTextEmail.setText(null);
         textInputEditTextPassword.setText(null);
-        is = false;
     }
 
-    public boolean check(final String email, final String password) {
-        if(userList.size() != 0) {
-            for (int i = 0; i < userList.size(); i++) {
-                if (userList.get(i).getUserEmail().equals(email) && userList.get(i).getUserPassword().equals(password)) {
-                    is = true;
-                    position = i;
+    public void getUser(String email) {
+        Call<User> call = service.getUserByEmail(email);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                user = response.body();
+                if(user != null) {
+                    loadBooksFragment(user);
+                }
+                else {
+                        // Snack Bar to show success message that record is wrong
+                        Snackbar snack = Snackbar.make(getView(), getString(R.string.error_valid_email_password), Snackbar.LENGTH_LONG);
+                        TextView tv = snack.getView().findViewById(android.support.design.R.id.snackbar_text);
+                        tv.setTextColor(Color.WHITE);
+                        snack.show();
                 }
             }
-        }
-        return is;
-    }
-
-    public void getUsers() {
-        mService.getUsers().enqueue(new Callback<List<User>>() {
-            @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                userList = response.body();
-            }
 
             @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 t.printStackTrace();
             }
         });
@@ -177,6 +158,18 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+    public void loadBooksFragment(User user) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        BooksFragment booksFragment = new BooksFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("user", user);
+        booksFragment.setArguments(bundle);
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_main_fragment_container, booksFragment, BooksFragment.TAG)
+                .addToBackStack(null)
+                .commit();
+        emptyInputEditText();
     }
 }
 

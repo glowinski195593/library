@@ -20,8 +20,8 @@ import android.widget.Toast;
 import java.util.List;
 
 import mglowinski.library.R;
-import mglowinski.library.api.ApiUtils;
 import mglowinski.library.api.SOService;
+import mglowinski.library.api.ServiceGenerator;
 import mglowinski.library.model.Book;
 import mglowinski.library.model.Borrow;
 import retrofit2.Call;
@@ -37,9 +37,9 @@ public class RentBookFragment extends Fragment {
     private AppCompatTextView isbn;
     private AppCompatTextView description;
     private Button button;
-    private SOService mService;
     private String userId;
     private DatePicker datePicker;
+    private SOService service;
 
     public RentBookFragment() {
         // Required empty public constructor
@@ -55,7 +55,7 @@ public class RentBookFragment extends Fragment {
         super.onCreate(savedInstanceState);
         book = (Book) getArguments().getSerializable("book");
         userId = (String )getArguments().getSerializable("userId");
-        mService = ApiUtils.getSOService();
+        service = ServiceGenerator.createService(SOService.class);
     }
 
     @Override
@@ -107,7 +107,9 @@ public class RentBookFragment extends Fragment {
         else
             date = Integer.toString(day) + "." + Integer.toString(month) + "." + Integer.toString(year);
         borrow.setDateBorrow(date);
-        mService.createBorrow(borrow).enqueue(new Callback<Borrow>() {
+
+        Call<Borrow> call = service.createBorrow(borrow);
+        call.enqueue(new Callback<Borrow>() {
             @Override
             public void onResponse(Call<Borrow> call, Response<Borrow> response) {
                 Log.e(TAG, "GIT");

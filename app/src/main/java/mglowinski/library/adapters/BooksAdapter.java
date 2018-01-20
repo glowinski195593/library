@@ -69,7 +69,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, author;
+        TextView title, author, publicationYear;
         ImageView imageBookAvaible;
         ImageView imageBookNotAvaible;
         RelativeLayout expandableLayout;
@@ -83,6 +83,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
             this.title = itemView.findViewById(R.id.titleId);
             this.author = itemView.findViewById(R.id.authorId);
             this.button = itemView.findViewById(R.id.buttonId);
+            this.publicationYear = itemView.findViewById(R.id.publicationYear);
         }
     }
 
@@ -167,6 +168,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
         }
         holder.title.setText(book.getBookTitle());
         holder.author.setText(book.getBookAuthor());
+        holder.publicationYear.setText(book.getBookPublicationYear());
     }
 
     @Override

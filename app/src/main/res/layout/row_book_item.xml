@@ -2,14 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:descendantFocusability="blocksDescendants"
     xmlns:card_view="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:descendantFocusability="blocksDescendants"
         card_view:cardBackgroundColor="@color/colorCard"
         card_view:cardCornerRadius="5dp"
         android:layout_marginBottom="6dp"
@@ -20,7 +18,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:descendantFocusability="blocksDescendants"
             android:padding="10dp">
 
             <LinearLayout
@@ -75,24 +72,42 @@
                     android:background="@color/colorText" />
 
                 <TextView
-                    android:id="@+id/mean"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/view"
-                    android:layout_margin="1dp"
-                    android:gravity="start|center"
-                    android:text="Autor: "
-                    android:textColor="#000" />
+                android:id="@+id/mean"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="1dp"
+                android:text="Autor : "
+                android:textColor="#000" />
 
                 <TextView
                     android:id="@+id/authorId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/mean"
-                    android:layout_margin="1dp"
-                    android:gravity="left"
-                    android:textColor="#000"
-                    android:textStyle="bold"/>
+                    android:layout_below="@+id/view"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="46dp"
+                    android:textColor="#000" />
+
+                <TextView
+                    android:id="@+id/publicationYearHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/view"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginLeft="1dp"
+                    android:text="Rok wydania : "
+                    android:textColor="#000" />
+
+                <TextView
+                    android:id="@+id/publicationYear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/view"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginLeft="91dp"
+                    android:textColor="#000" />
                 <Button
                     android:id="@+id/buttonId"
                     android:layout_width="wrap_content"
@@ -100,7 +115,7 @@
                     android:text="Wypożycz"
                     android:textColor="@color/cardview_dark_background"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginTop="12dp" />
+                    android:layout_marginTop="10dp" />
             </RelativeLayout>
         </RelativeLayout>
 

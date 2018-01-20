@@ -27,7 +27,8 @@
     <string name="text_date">Wpisz datę odbioru książki :</string>
     <string name="text_date_borrow">Data wypożyczenia</string>
     <string name="text_date_return">Data zwrotu</string>
-
+    <string name="text_date_isbn">ISBN</string>
+    <string name="text_publication_date">Data publikacji</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

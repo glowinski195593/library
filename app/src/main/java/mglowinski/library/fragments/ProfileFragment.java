@@ -18,8 +18,8 @@ import java.util.List;
 import mglowinski.library.R;
 import mglowinski.library.adapters.BooksAdapter;
 import mglowinski.library.adapters.BorrowBooksAdapter;
-import mglowinski.library.api.ApiUtils;
 import mglowinski.library.api.SOService;
+import mglowinski.library.api.ServiceGenerator;
 import mglowinski.library.model.Book;
 import mglowinski.library.model.Borrow;
 import mglowinski.library.model.User;
@@ -34,11 +34,11 @@ public class ProfileFragment extends Fragment {
     private AppCompatTextView userNameView;
     private AppCompatTextView userIdentityCardNumber;
     private AppCompatTextView noBorrowsView;
-    private SOService mService;
     private List<Borrow> borrowListFromResponse;
     private List<Borrow> userBorrowList;
     private BorrowBooksAdapter borrowBooksAdapter;
     private RecyclerView recyclerView;
+    private SOService service;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -54,7 +54,7 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
         user = (User) getArguments().getSerializable("user");
         borrowListFromResponse = (List<Borrow>) getArguments().getSerializable("borrowList");
-        mService = ApiUtils.getSOService();
+        service = ServiceGenerator.createService(SOService.class);
         userBorrowList = new ArrayList<>();
     }
 
@@ -67,12 +67,13 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        Log.e("COUNT PROFILE",Integer.toString(getFragmentManager().getBackStackEntryCount()));
         super.onViewCreated(view, savedInstanceState);
         userNameView = view.findViewById(R.id.textViewName);
         userIdentityCardNumber = view.findViewById(R.id.textViewIndex);
         noBorrowsView = view.findViewById(R.id.noBorrowsId);
         userNameView.setText(user.getUserName() + " " + user.getUserSurname());
-        userIdentityCardNumber.setText(user.getUserIdentityCardNumber());
+        userIdentityCardNumber.setText(user.getUserEmail());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView = view.findViewById(R.id.recyclerViewBorrows);
         recyclerView.setLayoutManager(mLayoutManager);

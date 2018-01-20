@@ -1,6 +1,8 @@
 package mglowinski.library.fragments;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +12,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -31,8 +35,8 @@ import java.util.Map;
 import mglowinski.library.R;
 import mglowinski.library.adapters.BooksAdapter;
 import mglowinski.library.adapters.CustomSpinnerAdapter;
-import mglowinski.library.api.ApiUtils;
 import mglowinski.library.api.SOService;
+import mglowinski.library.api.ServiceGenerator;
 import mglowinski.library.model.Book;
 import mglowinski.library.model.Borrow;
 import mglowinski.library.model.User;
@@ -51,13 +55,13 @@ public class BooksFragment extends Fragment {
     private List<Book> listActualViewBooks;
     private Map<String, Integer> mapAvailability = new HashMap<>();
     private List<Borrow> borrowListFromResponse;
-    private SOService mService;
     private SearchView searchView;
     private User user;
     private Spinner spinner;
     private CustomSpinnerAdapter spinAdapter;
     private ArrayList<String> categoriesList = new ArrayList<>();
     private boolean isBorrow;
+    private SOService service;
 
     public BooksFragment() {
         // Required empty public constructor
@@ -72,10 +76,10 @@ public class BooksFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mService = ApiUtils.getSOService();
         //hardcode for test
-        user = new User("59cdfd786eee35ffd5d73fa9", "maciej", "mck00@o2.pl", "p");
-        //user = (User) getArguments().getSerializable("user");
+        //user = new User("59cdfd786eee35ffd5d73fa9", "maciej", "m@o2.pl", "pw");
+        user = (User) getArguments().getSerializable("user");
+        service = ServiceGenerator.createService(SOService.class);
     }
 
     @Override
@@ -87,6 +91,7 @@ public class BooksFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.e("COUNT BOOKOS",Integer.toString(getFragmentManager().getBackStackEntryCount()));
         progress = ProgressDialog.show(getContext(), "Proszę czekać...",
                 "Trwa ładowanie listy książek", true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -117,7 +122,8 @@ public class BooksFragment extends Fragment {
     }
 
     public void loadListBooks() {
-        mService.getBooks().enqueue(new Callback<List<Book>>() {
+        Call<List<Book>> call = service.getBooks();
+        call.enqueue(new Callback<List<Book>>() {
             @Override
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
                 listBooks = response.body();
@@ -128,13 +134,14 @@ public class BooksFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Book>> call, Throwable t) {
-
+                Log.e("E", "E");
             }
         });
     }
 
     public void loadBorrowBooks() {
-        mService.getBorrows().enqueue(new Callback<List<Borrow>>() {
+        Call<List<Borrow>> call = service.getBorrows();
+        call.enqueue(new Callback<List<Borrow>>() {
             @Override
             public void onResponse(Call<List<Borrow>> call, Response<List<Borrow>> response) {
                 borrowListFromResponse = response.body();
@@ -152,10 +159,12 @@ public class BooksFragment extends Fragment {
         mapAvailability.clear();
         for (int i = 0; i < listBooks.size(); i++) {
             isBorrow = false;
-            for (int j = 0; j < listBorrows.size(); j++) {
-                if (listBooks.get(i).getBookId().equals(listBorrows.get(j).getBook().getBookId())) {
-                    mapAvailability.put(listBooks.get(i).getBookId(), 1);
-                    isBorrow = true;
+            if (listBorrows != null) {
+                for (int j = 0; j < listBorrows.size(); j++) {
+                    if (listBooks.get(i).getBookId().equals(listBorrows.get(j).getBook().getBookId())) {
+                        mapAvailability.put(listBooks.get(i).getBookId(), 1);
+                        isBorrow = true;
+                    }
                 }
             }
             if (isBorrow == false)
@@ -167,19 +176,29 @@ public class BooksFragment extends Fragment {
         boolean exist;
         categoriesList.clear();
         categoriesList.add("Wszystkie");
-        String category;
+        String category = "";
         for (int i = 0; i < listBooks.size(); i++) {
-            exist = false;
-            category = listBooks.get(i).getBookCategory();
-            for (String str : categoriesList) {
-                if (category.equals(str)) {
-                    exist = true;
+            for (int j = 0; j < listBooks.get(i).getBookCategory().size(); j++) {
+                exist = false;
+                category = listBooks.get(i).getBookCategory().get(j).displayName();
+                for (String str : categoriesList) {
+                    if (category.equals(str)) {
+                        exist = true;
+                    }
+                }
+                if (!exist) {
+                    categoriesList.add(category);
                 }
             }
-            if (!exist) {
-                categoriesList.add(category);
-            }
         }
+        Collections.sort(categoriesList, new Comparator<String>()
+        {
+            @Override
+            public int compare(String text1, String text2)
+            {
+                return text1.compareToIgnoreCase(text2);
+            }
+        });
         showBooksForChosenCategory();
     }
 
@@ -190,14 +209,16 @@ public class BooksFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i == 0) {
+                String category = categoriesList.get(i);
+                if (category.equals("Wszystkie"))
                     listActualViewBooks = listBooks;
-                } else {
-                    String category = categoriesList.get(i);
+                else {
                     listBooksFilter.clear();
                     for (Book book : listBooks) {
-                        if (book.getBookCategory().equals(category)) {
-                            listBooksFilter.add(book);
+                        for (int j = 0; j < book.getBookCategory().size(); j++) {
+                            if (book.getBookCategory().get(j).displayName().equals(category)) {
+                                listBooksFilter.add(book);
+                            }
                         }
                     }
                     listActualViewBooks = listBooksFilter;
@@ -235,7 +256,7 @@ public class BooksFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         switch (item.getItemId()) {
             case R.id.my_profile:
                 ProfileFragment profileFragment = new ProfileFragment();
@@ -250,11 +271,22 @@ public class BooksFragment extends Fragment {
                         .commit();
                 break;
             case R.id.logout:
-                fragmentManager.beginTransaction()
-                        .replace(R.id.frame_main_fragment_container, LoginFragment.newInstance(),
-                                LoginFragment.TAG)
-                        .commit();
-                Toast.makeText(getContext(), "Zostałeś wylogowany", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(getContext())
+                        .setMessage("Czy na pewno chcesz się wylogować?")
+                        .setCancelable(false)
+                        .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                fragmentManager.beginTransaction()
+                                        .replace(R.id.frame_main_fragment_container, LoginFragment.newInstance(),
+                                                LoginFragment.TAG)
+                                        .commit();
+                                fragmentManager.popBackStack();
+                                Toast.makeText(getContext(), "Zostałeś wylogowany", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("Nie", null)
+                        .show();
+
                 break;
             default:
                 break;

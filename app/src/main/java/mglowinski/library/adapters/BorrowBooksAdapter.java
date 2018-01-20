@@ -54,6 +54,8 @@ public class BorrowBooksAdapter extends RecyclerView.Adapter<BorrowBooksAdapter.
             e.printStackTrace();
         }
         holder.textViewDateReturn.setText(dateReturn);
+        holder.textViewIsbn.setText(borrowList.get(position).getBook().getBookIsbn());
+        holder.textViewPublicationDate.setText(borrowList.get(position).getBook().getBookPublicationYear());
     }
 
     @Override
@@ -71,6 +73,8 @@ public class BorrowBooksAdapter extends RecyclerView.Adapter<BorrowBooksAdapter.
         AppCompatTextView textViewAuthor;
         AppCompatTextView textViewDateBorrow;
         AppCompatTextView textViewDateReturn;
+        AppCompatTextView textViewIsbn;
+        AppCompatTextView textViewPublicationDate;
 
         public UserViewHolder(View view) {
             super(view);
@@ -78,6 +82,8 @@ public class BorrowBooksAdapter extends RecyclerView.Adapter<BorrowBooksAdapter.
             textViewAuthor = view.findViewById(R.id.textViewAuthor);
             textViewDateBorrow = view.findViewById(R.id.textViewDateBorrow);
             textViewDateReturn = view.findViewById(R.id.textViewDateReturn);
+            textViewIsbn = view.findViewById(R.id.textViewIsbn);
+            textViewPublicationDate = view.findViewById(R.id.textViewPublicationDate);
         }
     }
 

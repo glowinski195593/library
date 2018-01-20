@@ -87,7 +87,7 @@
     </LinearLayout>
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:background="@color/colorBackground"
         android:gravity="left"
         android:paddingLeft="5dp"
