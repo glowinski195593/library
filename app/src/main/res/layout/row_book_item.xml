@@ -36,6 +36,15 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/numberOfBooksId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="280dp"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:text="1 szt"
+                android:textSize="16sp" />
             <ImageView
                 android:id="@+id/image_book_avaible"
                 android:layout_width="wrap_content"

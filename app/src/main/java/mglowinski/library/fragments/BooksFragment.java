@@ -53,7 +53,9 @@ public class BooksFragment extends Fragment {
     private List<Book> listBooks = new ArrayList<>();
     private List<Book> listBooksFilter = new ArrayList<>();
     private List<Book> listActualViewBooks;
-    private Map<String, Integer> mapAvailability = new HashMap<>();
+    private List<Book> listCountBooks = new ArrayList<>();
+    private List<Book> listBooksRepeated = new ArrayList<>();
+    private Map<Book, Integer> mapNumberOfBooks = new HashMap<>();
     private List<Borrow> borrowListFromResponse;
     private SearchView searchView;
     private User user;
@@ -99,7 +101,7 @@ public class BooksFragment extends Fragment {
         spinner = getView().findViewById(R.id.spinner);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        booksAdapter = new BooksAdapter(mapAvailability, getContext(), ALPHABETICAL_COMPARATOR, user.getUserId());
+        booksAdapter = new BooksAdapter(mapNumberOfBooks, getContext(), ALPHABETICAL_COMPARATOR, user.getUserId());
         recyclerView.setAdapter(booksAdapter);
         loadBorrowBooks();
         searchView = view.findViewById(R.id.searchView);
@@ -127,7 +129,7 @@ public class BooksFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
                 listBooks = response.body();
-                checkAvailability(listBooks, borrowListFromResponse);
+                checkNumberOfBooks(listBooks);
                 addCategoriesToSpinner();
                 progress.dismiss();
             }
@@ -155,21 +157,55 @@ public class BooksFragment extends Fragment {
         });
     }
 
-    public void checkAvailability(List<Book> listBooks, List<Borrow> listBorrows) {
-        mapAvailability.clear();
-        for (int i = 0; i < listBooks.size(); i++) {
-            isBorrow = false;
-            if (listBorrows != null) {
-                for (int j = 0; j < listBorrows.size(); j++) {
-                    if (listBooks.get(i).getBookId().equals(listBorrows.get(j).getBook().getBookId())) {
-                        mapAvailability.put(listBooks.get(i).getBookId(), 1);
-                        isBorrow = true;
+    public void checkNumberOfBooks(List<Book> listBooks) {
+        mapNumberOfBooks.clear();
+        listCountBooks.clear();
+        boolean exist;
+        int counter;
+        for (int k = 0; k < listBooks.size(); k++) {
+            Book book = listBooks.get(k);
+            counter = 1;
+            exist = false;
+            if (listCountBooks.size() == 0) {
+                listCountBooks.add(book);
+                for (int p = k + 1; p < listBooks.size(); p++) {
+                    if (book.getBookTitle().equals(listBooks.get(p).getBookTitle())) {
+                        counter++;
                     }
                 }
+                for (int q = 0; q < borrowListFromResponse.size(); q++) {
+                    if (book.getBookTitle().equals(borrowListFromResponse.get(q).getBook().getBookTitle())) {
+                        counter--;
+                    }
+                }
+                mapNumberOfBooks.put(book, counter);
             }
-            if (isBorrow == false)
-                mapAvailability.put(listBooks.get(i).getBookId(), 0);
+            else {
+                for (int z = 0; z < listCountBooks.size(); z++) {
+                    if (book.getBookTitle().equals(listCountBooks.get(z).getBookTitle())) {
+                        exist = true;
+                    }
+                }
+                if (!exist) {
+                    listCountBooks.add(book);
+                    for (int p = k + 1; p < listBooks.size(); p++) {
+                        if (book.getBookTitle().equals(listBooks.get(p).getBookTitle())) {
+                            counter++;
+                        }
+                    }
+                    for (int q = 0; q < borrowListFromResponse.size(); q++) {
+                        if (book.getBookTitle().equals(borrowListFromResponse.get(q).getBook().getBookTitle())) {
+                            counter--;
+                        }
+                    }
+                    mapNumberOfBooks.put(book, counter);
+                }
+                else {
+                    listBooksRepeated.add(book);
+                }
+            }
         }
+        Log.e("SIZE", Integer.toString(mapNumberOfBooks.size()));
     }
 
     public void addCategoriesToSpinner() {
@@ -177,10 +213,10 @@ public class BooksFragment extends Fragment {
         categoriesList.clear();
         categoriesList.add("Wszystkie");
         String category = "";
-        for (int i = 0; i < listBooks.size(); i++) {
-            for (int j = 0; j < listBooks.get(i).getBookCategory().size(); j++) {
+        for (int i = 0; i < listCountBooks.size(); i++) {
+            for (int j = 0; j < listCountBooks.get(i).getBookCategory().size(); j++) {
                 exist = false;
-                category = listBooks.get(i).getBookCategory().get(j).displayName();
+                category = listCountBooks.get(i).getBookCategory().get(j).displayName();
                 for (String str : categoriesList) {
                     if (category.equals(str)) {
                         exist = true;
@@ -211,10 +247,10 @@ public class BooksFragment extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String category = categoriesList.get(i);
                 if (category.equals("Wszystkie"))
-                    listActualViewBooks = listBooks;
+                    listActualViewBooks = listCountBooks;
                 else {
                     listBooksFilter.clear();
-                    for (Book book : listBooks) {
+                    for (Book book : listCountBooks) {
                         for (int j = 0; j < book.getBookCategory().size(); j++) {
                             if (book.getBookCategory().get(j).displayName().equals(category)) {
                                 listBooksFilter.add(book);
@@ -223,7 +259,8 @@ public class BooksFragment extends Fragment {
                     }
                     listActualViewBooks = listBooksFilter;
                 }
-                booksAdapter.updateAnswers(listActualViewBooks, mapAvailability);
+
+                booksAdapter.updateAnswers(listActualViewBooks, mapNumberOfBooks, listBooksRepeated);
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {

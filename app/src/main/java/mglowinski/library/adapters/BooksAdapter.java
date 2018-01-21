@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +26,13 @@ import mglowinski.library.model.User;
 
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder> {
 
-    private Map<String, Integer> map;
+    private Map<Book, Integer> mapNumberOfBooks;
     private Boolean check = false;
     private Context context;
     private Comparator<Book> comparator;
     private String userId;
+    private List<Book> listBooksRepeated;
+    private List<Book> listBooksToSend;
 
     private final SortedList<Book> sortedList = new SortedList<>(Book.class, new SortedList.Callback<Book>() {
         @Override
@@ -69,7 +73,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, author, publicationYear;
+        TextView title, author, publicationYear, numberOfBooks;
         ImageView imageBookAvaible;
         ImageView imageBookNotAvaible;
         RelativeLayout expandableLayout;
@@ -84,11 +88,12 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
             this.author = itemView.findViewById(R.id.authorId);
             this.button = itemView.findViewById(R.id.buttonId);
             this.publicationYear = itemView.findViewById(R.id.publicationYear);
+            this.numberOfBooks = itemView.findViewById(R.id.numberOfBooksId);
         }
     }
 
-    public BooksAdapter(Map<String, Integer> map, Context context, Comparator<Book> comparator, String userId) {
-        this.map = map;
+    public BooksAdapter(Map<Book, Integer> mapNumberOfBooks, Context context, Comparator<Book> comparator, String userId) {
+        this.mapNumberOfBooks = mapNumberOfBooks;
         this.context = context;
         this.comparator = comparator;
         this.userId = userId;
@@ -140,14 +145,21 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int listPosition) {
         final Book book = sortedList.get(listPosition);
-        String i = book.getBookId();
-        final int availability = map.get(i);
-        if (availability == 0) {
+        final int count = mapNumberOfBooks.get(book);
+        if (count != 0) {
             holder.imageBookAvaible.setVisibility(View.VISIBLE);
             holder.imageBookNotAvaible.setVisibility(View.GONE);
             holder.button.setVisibility(View.VISIBLE);
             holder.button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    listBooksToSend = new ArrayList<>();
+                    for (int i = 0; i < listBooksRepeated.size(); i++) {
+                        if (book.getBookTitle().equals(listBooksRepeated.get(i).getBookTitle())) {
+                            listBooksToSend.add(listBooksRepeated.get(i));
+                        }
+                    }
+                    listBooksToSend.add(book);
+                    Log.e("TAGUS", Integer.toString(listBooksToSend.size()));
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("book", book);
                     bundle.putSerializable("userId", userId);
@@ -161,7 +173,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
                             .commit();
                 }
             });
-        } else if (availability == 1) {
+        } else if (count == 0) {
             holder.imageBookAvaible.setVisibility(View.GONE);
             holder.imageBookNotAvaible.setVisibility(View.VISIBLE);
             holder.button.setVisibility(View.GONE);
@@ -169,6 +181,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
         holder.title.setText(book.getBookTitle());
         holder.author.setText(book.getBookAuthor());
         holder.publicationYear.setText(book.getBookPublicationYear());
+        holder.numberOfBooks.setText(mapNumberOfBooks.get(book).toString() + ". szt");
     }
 
     @Override
@@ -176,10 +189,11 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
         return sortedList.size();
     }
 
-    public void updateAnswers(List<Book> books, Map<String, Integer> map) {
+    public void updateAnswers(List<Book> books, Map<Book, Integer> mapNumberOfBooks, List<Book> listBooksRepeated) {
         sortedList.clear();
         sortedList.addAll(books);
-        this.map = map;
+        this.mapNumberOfBooks = mapNumberOfBooks;
+        this.listBooksRepeated = listBooksRepeated;
         notifyDataSetChanged();
     }
 }
