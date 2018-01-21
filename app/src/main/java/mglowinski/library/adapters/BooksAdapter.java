@@ -3,6 +3,7 @@ package mglowinski.library.adapters;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,14 +15,17 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
 import mglowinski.library.R;
+import mglowinski.library.fragments.PagerFragment;
 import mglowinski.library.fragments.RentBookFragment;
 import mglowinski.library.model.Book;
+import mglowinski.library.model.Borrow;
 import mglowinski.library.model.User;
 
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder> {
@@ -33,7 +37,8 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
     private String userId;
     private List<Book> listBooksRepeated;
     private List<Book> listBooksToSend;
-
+    private PagerFragment pagerFragment;
+    private List<Borrow> borrowListFromResponse;
     private final SortedList<Book> sortedList = new SortedList<>(Book.class, new SortedList.Callback<Book>() {
         @Override
         public int compare(Book a, Book b) {
@@ -153,13 +158,56 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
             holder.button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     listBooksToSend = new ArrayList<>();
-                    for (int i = 0; i < listBooksRepeated.size(); i++) {
-                        if (book.getBookTitle().equals(listBooksRepeated.get(i).getBookTitle())) {
-                            listBooksToSend.add(listBooksRepeated.get(i));
+                    boolean exist;
+                    exist = false;
+                    if (borrowListFromResponse.size() == 0) {
+                        listBooksToSend.add(book);
+                        for (int i = 0; i < listBooksRepeated.size(); i++) {
+                            if (book.getBookTitle().equals(listBooksRepeated.get(i).getBookTitle())) {
+                                listBooksToSend.add(listBooksRepeated.get(i));
+                            }
                         }
                     }
-                    listBooksToSend.add(book);
+                    else {
+                        for (int i = 0; i < borrowListFromResponse.size(); i++) {
+                            if (book.getBookTitle().equals(borrowListFromResponse.get(i).getBook().getBookTitle())) {
+                                if (book.getBookId().equals(borrowListFromResponse.get(i).getBook().getBookId())) {
+                                    exist = true;
+                                    //listBooksToSend.add(book);
+                                }
+                            }
+                        }
+                        if(!exist) {
+                            listBooksToSend.add(book);
+                        }
+
+                        for (int i = 0; i < listBooksRepeated.size(); i++) {
+                            if (book.getBookTitle().equals(listBooksRepeated.get(i).getBookTitle())) {
+                                for (int j = 0; j < borrowListFromResponse.size(); j++) {
+                                    if (!listBooksRepeated.get(i).getBookId().equals(borrowListFromResponse.get(j).getBook().getBookId())) {
+                                        listBooksToSend.add(listBooksRepeated.get(i));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    //listBooksToSend.add(book);
                     Log.e("TAGUS", Integer.toString(listBooksToSend.size()));
+
+                    PagerFragment pagerFragment = new PagerFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("CURRENT_POSITION", 0);
+                    bundle.putSerializable("books", (Serializable) listBooksToSend);
+                    bundle.putString("userId", userId);
+                    pagerFragment.setArguments(bundle);
+                    FragmentActivity activity = (FragmentActivity) context;
+                    activity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame_main_fragment_container, pagerFragment, "swipe_view_fragment")
+                            .addToBackStack(null)
+                            .commit();
+
+                   /* Log.e("TAGUS", Integer.toString(listBooksToSend.size()));
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("book", book);
                     bundle.putSerializable("userId", userId);
@@ -170,7 +218,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
                             .beginTransaction()
                             .replace(R.id.frame_main_fragment_container, rentBookFragment, RentBookFragment.TAG)
                             .addToBackStack(null)
-                            .commit();
+                            .commit();*/
                 }
             });
         } else if (count == 0) {
@@ -189,11 +237,12 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
         return sortedList.size();
     }
 
-    public void updateAnswers(List<Book> books, Map<Book, Integer> mapNumberOfBooks, List<Book> listBooksRepeated) {
+    public void updateAnswers(List<Book> books, Map<Book, Integer> mapNumberOfBooks, List<Book> listBooksRepeated, List<Borrow> borrowListFromResponse) {
         sortedList.clear();
         sortedList.addAll(books);
         this.mapNumberOfBooks = mapNumberOfBooks;
         this.listBooksRepeated = listBooksRepeated;
+        this.borrowListFromResponse = borrowListFromResponse;
         notifyDataSetChanged();
     }
 }

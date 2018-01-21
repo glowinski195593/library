@@ -160,6 +160,7 @@ public class BooksFragment extends Fragment {
     public void checkNumberOfBooks(List<Book> listBooks) {
         mapNumberOfBooks.clear();
         listCountBooks.clear();
+        listBooksRepeated.clear();
         boolean exist;
         int counter;
         for (int k = 0; k < listBooks.size(); k++) {
@@ -205,7 +206,9 @@ public class BooksFragment extends Fragment {
                 }
             }
         }
-        Log.e("SIZE", Integer.toString(mapNumberOfBooks.size()));
+        for (int i = 0; i < listBooksRepeated.size(); i++) {
+            Log.e("i", listBooksRepeated.get(i).getBookTitle());
+        }
     }
 
     public void addCategoriesToSpinner() {
@@ -260,7 +263,7 @@ public class BooksFragment extends Fragment {
                     listActualViewBooks = listBooksFilter;
                 }
 
-                booksAdapter.updateAnswers(listActualViewBooks, mapNumberOfBooks, listBooksRepeated);
+                booksAdapter.updateAnswers(listActualViewBooks, mapNumberOfBooks, listBooksRepeated, borrowListFromResponse);
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
