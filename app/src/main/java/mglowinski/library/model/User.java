@@ -2,8 +2,6 @@ package mglowinski.library.model;
 
 import java.io.Serializable;
 
-import lombok.Data;
-
 /**
  * Created by macglo on 19.09.17.
  */

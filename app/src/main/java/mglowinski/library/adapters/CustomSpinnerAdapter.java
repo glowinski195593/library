@@ -14,19 +14,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import mglowinski.library.R;
+
 /**
  * Created by macglo on 21.08.17.
  */
-import java.util.ArrayList;
-import android.content.Context;
-import android.content.res.Resources;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-
-import mglowinski.library.R;
 
 
 // Custom Adapter for Spinner

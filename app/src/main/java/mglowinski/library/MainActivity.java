@@ -1,17 +1,12 @@
 package mglowinski.library;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
-import java.util.List;
-
-import mglowinski.library.fragments.BooksFragment;
 import mglowinski.library.fragments.LoginFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,16 +30,25 @@ public class MainActivity extends AppCompatActivity {
         int count = getSupportFragmentManager().getBackStackEntryCount();
 
         if (count == 2) {
-            new AlertDialog.Builder(this)
+            AlertDialog.Builder builder;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+            } else {
+                builder = new AlertDialog.Builder(this);
+            }
+            builder.setTitle("Wylogowywanie")
                     .setMessage("Czy na pewno chcesz się wylogować?")
-                    .setCancelable(false)
-                    .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
+                    .setPositiveButton("tak", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
                             getSupportFragmentManager().popBackStack();
                             Toast.makeText(getApplicationContext(), "Zostałeś wylogowany", Toast.LENGTH_SHORT).show();
                         }
                     })
-                    .setNegativeButton("Nie", null)
+                    .setNegativeButton("nie", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
                     .show();
         }
         else if (count == 1) {

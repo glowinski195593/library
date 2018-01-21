@@ -19,11 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.mindrot.jbcrypt.BCrypt;
-
-import java.util.Base64;
-import java.util.List;
-
 import mglowinski.library.R;
 import mglowinski.library.api.SOService;
 import mglowinski.library.api.ServiceGenerator;

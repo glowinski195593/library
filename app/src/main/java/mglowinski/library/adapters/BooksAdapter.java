@@ -3,7 +3,6 @@ package mglowinski.library.adapters;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,10 +22,8 @@ import java.util.Map;
 
 import mglowinski.library.R;
 import mglowinski.library.fragments.PagerFragment;
-import mglowinski.library.fragments.RentBookFragment;
 import mglowinski.library.model.Book;
 import mglowinski.library.model.Borrow;
-import mglowinski.library.model.User;
 
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder> {
 
@@ -78,7 +75,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, author, publicationYear, numberOfBooks;
+        TextView title, author, numberOfBooks;
         ImageView imageBookAvaible;
         ImageView imageBookNotAvaible;
         RelativeLayout expandableLayout;
@@ -92,7 +89,6 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
             this.title = itemView.findViewById(R.id.titleId);
             this.author = itemView.findViewById(R.id.authorId);
             this.button = itemView.findViewById(R.id.buttonId);
-            this.publicationYear = itemView.findViewById(R.id.publicationYear);
             this.numberOfBooks = itemView.findViewById(R.id.numberOfBooksId);
         }
     }
@@ -158,7 +154,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
             holder.button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     listBooksToSend = new ArrayList<>();
-                    boolean exist;
+                    boolean exist, exist2;
                     exist = false;
                     if (borrowListFromResponse.size() == 0) {
                         listBooksToSend.add(book);
@@ -170,11 +166,9 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
                     }
                     else {
                         for (int i = 0; i < borrowListFromResponse.size(); i++) {
-                            if (book.getBookTitle().equals(borrowListFromResponse.get(i).getBook().getBookTitle())) {
-                                if (book.getBookId().equals(borrowListFromResponse.get(i).getBook().getBookId())) {
-                                    exist = true;
+                            if (book.getBookId().equals(borrowListFromResponse.get(i).getBook().getBookId())) {
+                                exist = true;
                                     //listBooksToSend.add(book);
-                                }
                             }
                         }
                         if(!exist) {
@@ -182,11 +176,19 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
                         }
 
                         for (int i = 0; i < listBooksRepeated.size(); i++) {
+                            exist2 = false;
                             if (book.getBookTitle().equals(listBooksRepeated.get(i).getBookTitle())) {
                                 for (int j = 0; j < borrowListFromResponse.size(); j++) {
-                                    if (!listBooksRepeated.get(i).getBookId().equals(borrowListFromResponse.get(j).getBook().getBookId())) {
+                                    if (listBooksRepeated.get(i).getBookTitle().equals(borrowListFromResponse.get(j).getBook().getBookTitle())) {
+                                        exist2 = true;
+                                    }
+                                    if (!listBooksRepeated.get(i).getBookId().equals(borrowListFromResponse.get(j).getBook().getBookId())
+                                            && listBooksRepeated.get(i).getBookTitle().equals(borrowListFromResponse.get(j).getBook().getBookTitle())) {
                                         listBooksToSend.add(listBooksRepeated.get(i));
                                     }
+                                }
+                                if(!exist2) {
+                                    listBooksToSend.add(listBooksRepeated.get(i));
                                 }
                             }
                         }
@@ -228,7 +230,6 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
         }
         holder.title.setText(book.getBookTitle());
         holder.author.setText(book.getBookAuthor());
-        holder.publicationYear.setText(book.getBookPublicationYear());
         holder.numberOfBooks.setText(mapNumberOfBooks.get(book).toString() + ". szt");
     }
 

@@ -3,6 +3,7 @@ package mglowinski.library.fragments;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -311,11 +312,16 @@ public class BooksFragment extends Fragment {
                         .commit();
                 break;
             case R.id.logout:
-                new AlertDialog.Builder(getContext())
+                AlertDialog.Builder builder;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new AlertDialog.Builder(getContext(), android.R.style.Theme_Material_Dialog_Alert);
+                } else {
+                    builder = new AlertDialog.Builder(getContext());
+                }
+                builder.setTitle("Wylogowywanie")
                         .setMessage("Czy na pewno chcesz się wylogować?")
-                        .setCancelable(false)
-                        .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
+                        .setPositiveButton("tak", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
                                 fragmentManager.beginTransaction()
                                         .replace(R.id.frame_main_fragment_container, LoginFragment.newInstance(),
                                                 LoginFragment.TAG)
@@ -324,9 +330,12 @@ public class BooksFragment extends Fragment {
                                 Toast.makeText(getContext(), "Zostałeś wylogowany", Toast.LENGTH_SHORT).show();
                             }
                         })
-                        .setNegativeButton("Nie", null)
+                        .setNegativeButton("nie", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
                         .show();
-
                 break;
             default:
                 break;

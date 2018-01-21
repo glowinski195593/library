@@ -22,12 +22,13 @@
 
             <LinearLayout
                 android:id="@+id/l_layout"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/titleId"
+                    android:text="TO JEST TYTUL"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingRight="5dp"
@@ -36,15 +37,7 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/numberOfBooksId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="280dp"
-                android:textStyle="bold"
-                android:textColor="#000"
-                android:text="1 szt"
-                android:textSize="16sp" />
+
             <ImageView
                 android:id="@+id/image_book_avaible"
                 android:layout_width="wrap_content"
@@ -53,6 +46,7 @@
                 android:background="@null"
                 android:scaleType="fitEnd"
                 android:src="@drawable/ic_done"
+                android:layout_marginTop="3dp"
                 android:layout_alignParentTop="true"/>
             <ImageView
                 android:id="@+id/image_book_not_avaible"
@@ -60,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 android:layout_alignParentEnd="true"
+                android:layout_marginTop="3dp"
                 android:background="@null"
                 android:scaleType="fitEnd"
                 android:src="@drawable/ic_highlight_off"
@@ -87,36 +82,42 @@
                 android:layout_below="@+id/view"
                     android:layout_marginTop="4dp"
                     android:layout_marginLeft="1dp"
+                    android:textSize="16sp"
                 android:text="Autor : "
                 android:textColor="#000" />
 
                 <TextView
                     android:id="@+id/authorId"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/view"
                     android:layout_marginTop="4dp"
-                    android:layout_marginLeft="46dp"
+                    android:layout_marginLeft="52dp"
+                    android:textSize="16sp"
                     android:textColor="#000" />
 
                 <TextView
-                    android:id="@+id/publicationYearHeader"
+                    android:id="@+id/count"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/view"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginLeft="1dp"
-                    android:text="Rok wydania : "
+                    android:textSize="16sp"
+                    android:text="Ilość  : "
                     android:textColor="#000" />
 
                 <TextView
-                    android:id="@+id/publicationYear"
-                    android:layout_width="match_parent"
+                    android:id="@+id/numberOfBooksId"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/view"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginLeft="91dp"
-                    android:textColor="#000" />
+                    android:textColor="#000"
+                    android:text="1 szt"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginLeft="52dp"
+                    android:textSize="16sp" />
+
                 <Button
                     android:id="@+id/buttonId"
                     android:layout_width="wrap_content"
@@ -124,7 +125,7 @@
                     android:text="Wypożycz"
                     android:textColor="@color/cardview_dark_background"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginTop="6dp" />
             </RelativeLayout>
         </RelativeLayout>
 

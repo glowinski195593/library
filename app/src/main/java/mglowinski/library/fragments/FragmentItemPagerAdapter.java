@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +58,7 @@ public class FragmentItemPagerAdapter extends FragmentStatePagerAdapter {
     // Returns the page title for the top indicator
     @Override
     public CharSequence getPageTitle(int position) {
-        return "Page " + (position + 1);
+        return "Egzemplarz nr. " + (position + 1);
     }
 
     @Override
@@ -96,8 +95,8 @@ public class FragmentItemPagerAdapter extends FragmentStatePagerAdapter {
             ((AppCompatTextView) rootView.findViewById(R.id.rentBookYear)).setText(
                     getArguments().getString(BOOK_YEAR));
             ((TextView) rootView.findViewById(R.id.descriptionId)).setMovementMethod(new ScrollingMovementMethod());
-            button = (Button) rootView.findViewById(R.id.submitButtonId);
-            datePicker = (DatePicker) rootView.findViewById(R.id.datePicker);
+            button = rootView.findViewById(R.id.submitButtonId);
+            datePicker = rootView.findViewById(R.id.datePicker);
             book = (Book) getArguments().getSerializable(BOOK);
             userId = getArguments().getString(USERID);
             button.setOnClickListener(this);

@@ -16,16 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mglowinski.library.R;
-import mglowinski.library.adapters.BooksAdapter;
 import mglowinski.library.adapters.BorrowBooksAdapter;
 import mglowinski.library.api.SOService;
 import mglowinski.library.api.ServiceGenerator;
-import mglowinski.library.model.Book;
 import mglowinski.library.model.Borrow;
 import mglowinski.library.model.User;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
 

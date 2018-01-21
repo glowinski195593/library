@@ -25,7 +25,7 @@
     <string name="text_title">Tytuł</string>
     <string name="text_description">Opis...</string>
     <string name="text_date">Wpisz datę odbioru książki :</string>
-    <string name="text_date_borrow">Data wypożyczenia</string>
+    <string name="text_date_borrow">Data rezerwacji</string>
     <string name="text_date_return">Data zwrotu</string>
     <string name="text_date_isbn">ISBN</string>
     <string name="text_publication_date">Data publikacji</string>
