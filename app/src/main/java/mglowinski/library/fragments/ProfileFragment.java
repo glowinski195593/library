@@ -62,48 +62,37 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        Log.e("COUNT PROFILE",Integer.toString(getFragmentManager().getBackStackEntryCount()));
         super.onViewCreated(view, savedInstanceState);
+        prepareView(view);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        userBorrows(borrowListFromResponse);
+    }
+
+    public void userBorrows(List<Borrow> borrowListFromResponse) {
+        if (borrowListFromResponse != null) {
+            for (Borrow borrow : borrowListFromResponse) {
+                if (borrow.getUserId().equals(user.getUserId()))
+                    userBorrowList.add(borrow);
+            }
+            if (userBorrowList != null) {
+                noBorrowsView.setVisibility(View.GONE);
+                borrowBooksAdapter = new BorrowBooksAdapter(userBorrowList);
+                recyclerView.setAdapter(borrowBooksAdapter);
+            } else {
+                noBorrowsView.setText("Brak wypożyczeń");
+                noBorrowsView.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    public void prepareView(View view) {
         userNameView = view.findViewById(R.id.textViewName);
         userIdentityCardNumber = view.findViewById(R.id.textViewIndex);
         noBorrowsView = view.findViewById(R.id.noBorrowsId);
         userNameView.setText(user.getUserName() + " " + user.getUserSurname());
         userIdentityCardNumber.setText(user.getUserEmail());
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView = view.findViewById(R.id.recyclerViewBorrows);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        userBorrows(borrowListFromResponse);
-    }
-  /*  public void loadBorrows() {
-        mService.getBorrows().enqueue(new Callback<List<Borrow>>() {
-            @Override
-            public void onResponse(Call<List<Borrow>> call, Response<List<Borrow>> response) {
-                borrowListFromResponse = response.body();
-                userBorrows(borrowListFromResponse);
-            }
-
-            @Override
-            public void onFailure(Call<List<Borrow>> call, Throwable t) {
-
-            }
-        });
-    }*/
-    public void userBorrows(List<Borrow> borrowListFromResponse) {
-        if(borrowListFromResponse != null) {
-            for (Borrow borrow : borrowListFromResponse) {
-                if (borrow.getUserId().equals(user.getUserId()))
-                    userBorrowList.add(borrow);
-            }
-            if(userBorrowList != null) {
-                noBorrowsView.setVisibility(View.GONE);
-                borrowBooksAdapter = new BorrowBooksAdapter(userBorrowList);
-                recyclerView.setAdapter(borrowBooksAdapter);
-            }
-            else {
-                noBorrowsView.setText("Brak wypożyczeń");
-                noBorrowsView.setVisibility(View.VISIBLE);
-            }
-        }
     }
 }

@@ -11,8 +11,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="63b50e93-aa72-4045-b815-7f2cfa0e2760" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/RentBookFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_rent_book.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/classAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/classAnalysis.bin" />
@@ -24,7 +22,9 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/BooksAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/BooksAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/BorrowBooksAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/BorrowBooksAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/CustomSpinnerAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/CustomSpinnerAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/api/SOService.java" afterPath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/api/SOService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/api/ServiceGenerator.java" afterPath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/api/ServiceGenerator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/BooksFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/BooksFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/FragmentItemPagerAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/FragmentItemPagerAdapter.java" />
@@ -34,7 +34,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/model/Book.java" afterPath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/model/Book.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/model/Borrow.java" afterPath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/model/Borrow.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/model/User.java" afterPath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/model/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/row_book_item.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/row_book_item.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/validators/InputValidation.java" afterPath="$PROJECT_DIR$/app/src/main/java/mglowinski/library/validators/InputValidation.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/row_borrow_book_item.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/row_borrow_book_item.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/build/classes/" />
@@ -79,36 +80,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="LoginFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/LoginFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1035">
-              <caret line="73" column="57" lean-forward="false" selection-start-line="73" selection-start-column="57" selection-end-line="73" selection-end-column="57" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PagerFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/PagerFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="621">
-              <caret line="27" column="123" lean-forward="false" selection-start-line="27" selection-start-column="123" selection-end-line="27" selection-end-column="123" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ProfileFragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/ProfileFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1472">
-              <caret line="64" column="28" lean-forward="false" selection-start-line="64" selection-start-column="28" selection-end-line="64" selection-end-column="28" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="-239">
+              <caret line="66" column="90" lean-forward="false" selection-start-line="66" selection-start-column="90" selection-end-line="66" selection-end-column="90" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -116,11 +93,11 @@
       <file leaf-file-name="Book.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/model/Book.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1104">
-              <caret line="70" column="43" lean-forward="false" selection-start-line="70" selection-start-column="43" selection-end-line="70" selection-end-column="43" />
+            <state relative-caret-position="46">
+              <caret line="25" column="55" lean-forward="false" selection-start-line="25" selection-start-column="55" selection-end-line="25" selection-end-column="55" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1639#1640#0" expanded="true" />
+                <element signature="e#1340#1341#0" expanded="true" />
+                <element signature="e#1382#1383#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -129,8 +106,8 @@
       <file leaf-file-name="Borrow.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/model/Borrow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+            <state relative-caret-position="184">
+              <caret line="14" column="22" lean-forward="false" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -149,8 +126,8 @@
       <file leaf-file-name="User.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/model/User.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="44">
-              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+            <state relative-caret-position="23">
+              <caret line="12" column="29" lean-forward="false" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -159,35 +136,53 @@
       <file leaf-file-name="InputValidation.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/validators/InputValidation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="322">
-              <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/MainActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1058">
-              <caret line="48" column="0" lean-forward="true" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ServiceGenerator.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/api/ServiceGenerator.java">
-          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="345">
-              <caret line="15" column="54" lean-forward="true" selection-start-line="15" selection-start-column="54" selection-end-line="15" selection-end-column="54" />
+              <caret line="46" column="5" lean-forward="false" selection-start-line="46" selection-start-column="5" selection-end-line="46" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BorrowBooksAdapter.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/BorrowBooksAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2116">
+              <caret line="113" column="33" lean-forward="true" selection-start-line="113" selection-start-column="33" selection-end-line="113" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CustomSpinnerAdapter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/CustomSpinnerAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="72">
+              <caret line="27" column="12" lean-forward="false" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BooksAdapter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/BooksAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-264">
+              <caret line="211" column="16" lean-forward="false" selection-start-line="211" selection-start-column="16" selection-end-line="211" selection-end-column="16" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#4193#4360#0" expanded="true" />
+                <element signature="e#4359#4360#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FragmentItemPagerAdapter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/FragmentItemPagerAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2346">
+              <caret line="146" column="54" lean-forward="false" selection-start-line="146" selection-start-column="54" selection-end-line="146" selection-end-column="54" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -207,6 +202,8 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>CCC</find>
+      <find>LOG.E</find>
+      <find>LOG.</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -1936,32 +1933,33 @@
         <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/api/BasicAuthInterceptor.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/api/RetrofitClient.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/api/AuthenticationInterceptor.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/api/SOService.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/row_spinner_category.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/RentBookFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/api/OnBackPressed.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/popup.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/settings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/model/Category.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/row_borrow_book_item.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/BorrowBooksAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_rent_book.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_pager.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/view_pager.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/row_book_item.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/BooksFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/api/ServiceGenerator.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/row_borrow_book_item.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/BooksAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/CustomSpinnerAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/FragmentItemPagerAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/api/SOService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/BooksFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/LoginFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/PagerFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/ProfileFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/model/Book.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/model/Borrow.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/model/User.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/api/ServiceGenerator.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/validators/InputValidation.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/model/Borrow.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/FragmentItemPagerAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/BooksAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/CustomSpinnerAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/BorrowBooksAdapter.java" />
       </list>
     </option>
   </component>
@@ -1989,6 +1987,82 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mglowinski.library" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="AndroidView">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -2343,82 +2417,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="AndroidView">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scratches" />
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mglowinski.library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2511,7 +2509,8 @@
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
       <method>
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1516569479542" />
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1516670228982" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -2558,7 +2557,8 @@
         <option name="ADVANCED_PROFILING_ENABLED" value="false" />
       </Profilers>
       <method>
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1516569479542" />
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1516670228982" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -2590,27 +2590,6 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <method />
-    </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
       <method />
     </configuration>
     <configuration default="true" type="JarApplication" factoryName="JAR Application">
@@ -2740,7 +2719,8 @@
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
       <method>
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1516569479543" />
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1516670228983" />
       </method>
     </configuration>
     <list size="1">
@@ -2789,7 +2769,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922733" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -2805,14 +2784,13 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" x="91" y="91" width="1732" height="848" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32994652" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2553648" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21948488" sideWeight="0.49517167" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922733" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922733" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973261" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2262032" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22513369" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32994652" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
@@ -2821,6 +2799,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" x="91" y="91" width="1732" height="848" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922733" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -2835,20 +2814,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="667">
-          <caret line="29" column="58" lean-forward="false" selection-start-line="29" selection-start-column="58" selection-end-line="29" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/lombok.config" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -2923,17 +2888,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/row_spinner_category.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="322">
@@ -2949,7 +2903,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="222">
           <caret line="252" column="0" lean-forward="false" selection-start-line="252" selection-start-column="0" selection-end-line="252" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2964,22 +2917,10 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_books.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="38" column="37" lean-forward="false" selection-start-line="38" selection-start-column="37" selection-end-line="38" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-26/data/res/values/themes_material.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="201">
           <caret line="1191" column="31" lean-forward="false" selection-start-line="1191" selection-start-column="23" selection-end-line="1191" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2991,14 +2932,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/RentBookFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="57" column="8" lean-forward="false" selection-start-line="57" selection-start-column="8" selection-end-line="57" selection-end-column="66" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/RentBookFragment.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_pager.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="161">
@@ -3010,28 +2944,7 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/row_book_item.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="621">
-          <caret line="90" column="54" lean-forward="false" selection-start-line="90" selection-start-column="54" selection-end-line="90" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_rent_book.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="587">
-          <caret line="96" column="36" lean-forward="false" selection-start-line="96" selection-start-column="36" selection-end-line="96" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_rent_book.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/view_pager.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
@@ -3043,60 +2956,10 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-207">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/row_borrow_book_item.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="115" column="36" lean-forward="false" selection-start-line="115" selection-start-column="36" selection-end-line="115" selection-end-column="36" />
-          <folding>
-            <element signature="e#3755#3786#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="523">
-          <caret line="27" column="51" lean-forward="false" selection-start-line="27" selection-start-column="51" selection-end-line="27" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/BooksAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="621">
-          <caret line="27" column="13" lean-forward="false" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/CustomSpinnerAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="32" column="57" lean-forward="false" selection-start-line="32" selection-start-column="57" selection-end-line="32" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/BorrowBooksAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="918">
-          <caret line="55" column="22" lean-forward="false" selection-start-line="55" selection-start-column="22" selection-end-line="55" selection-end-column="22" />
+        <state relative-caret-position="642">
+          <caret line="31" column="51" lean-forward="false" selection-start-line="31" selection-start-column="51" selection-end-line="31" selection-end-column="51" />
           <folding />
         </state>
       </provider>
@@ -3109,77 +2972,153 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/api/ServiceGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="15" column="68" lean-forward="false" selection-start-line="15" selection-start-column="68" selection-end-line="15" selection-end-column="68" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/api/SOService.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="33" column="65" lean-forward="false" selection-start-line="33" selection-start-column="65" selection-end-line="33" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_books.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="621">
+          <caret line="27" column="33" lean-forward="false" selection-start-line="27" selection-start-column="33" selection-end-line="27" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/row_borrow_book_item.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="1" column="18" lean-forward="false" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
+          <folding>
+            <element signature="e#5883#5909#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/row_book_item.xml">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
-          <caret line="17" column="28" lean-forward="false" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
+          <caret line="62" column="24" lean-forward="false" selection-start-line="62" selection-start-column="24" selection-end-line="62" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/AppData/Local/Android/Sdk/extras/android/m2repository/com/android/support/support-fragment/26.0.0-alpha1/support-fragment-26.0.0-alpha1-sources.jar!/android/support/v4/app/FragmentActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="171" column="16" lean-forward="false" selection-start-line="171" selection-start-column="16" selection-end-line="171" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="40" column="31" lean-forward="false" selection-start-line="40" selection-start-column="16" selection-end-line="40" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/BooksFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6693">
-          <caret line="337" column="32" lean-forward="false" selection-start-line="337" selection-start-column="32" selection-end-line="337" selection-end-column="32" />
+        <state relative-caret-position="233">
+          <caret line="101" column="26" lean-forward="false" selection-start-line="101" selection-start-column="26" selection-end-line="101" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/FragmentItemPagerAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1886">
-          <caret line="86" column="67" lean-forward="false" selection-start-line="86" selection-start-column="67" selection-end-line="86" selection-end-column="67" />
-          <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#5019#5020#0" expanded="true" />
+            <element signature="e#5066#5067#0" expanded="true" />
+            <element signature="e#12545#12546#0" expanded="true" />
+            <element signature="e#12596#12597#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/LoginFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1035">
-          <caret line="73" column="57" lean-forward="false" selection-start-line="73" selection-start-column="57" selection-end-line="73" selection-end-column="57" />
+        <state relative-caret-position="420">
+          <caret line="72" column="26" lean-forward="false" selection-start-line="72" selection-start-column="26" selection-end-line="72" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/PagerFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="621">
-          <caret line="27" column="123" lean-forward="false" selection-start-line="27" selection-start-column="123" selection-end-line="27" selection-end-column="123" />
+        <state relative-caret-position="598">
+          <caret line="35" column="14" lean-forward="false" selection-start-line="35" selection-start-column="14" selection-end-line="35" selection-end-column="14" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#1203#1204#0" expanded="true" />
+            <element signature="e#1266#1267#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/ProfileFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1472">
-          <caret line="64" column="28" lean-forward="false" selection-start-line="64" selection-start-column="28" selection-end-line="64" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="-239">
+          <caret line="66" column="90" lean-forward="false" selection-start-line="66" selection-start-column="90" selection-end-line="66" selection-end-column="90" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/model/Book.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1104">
-          <caret line="70" column="43" lean-forward="false" selection-start-line="70" selection-start-column="43" selection-end-line="70" selection-end-column="43" />
+        <state relative-caret-position="46">
+          <caret line="25" column="55" lean-forward="false" selection-start-line="25" selection-start-column="55" selection-end-line="25" selection-end-column="55" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1639#1640#0" expanded="true" />
+            <element signature="e#1340#1341#0" expanded="true" />
+            <element signature="e#1382#1383#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/model/Borrow.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/model/User.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+        <state relative-caret-position="23">
+          <caret line="12" column="29" lean-forward="false" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
           <folding />
         </state>
       </provider>
@@ -3192,41 +3131,63 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/model/User.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/validators/InputValidation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+        <state relative-caret-position="345">
+          <caret line="46" column="5" lean-forward="false" selection-start-line="46" selection-start-column="5" selection-end-line="46" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/validators/InputValidation.java">
+    <entry file="jar://$USER_HOME$/AppData/Local/Android/Sdk/extras/android/m2repository/com/android/support/recyclerview-v7/26.0.0-alpha1/recyclerview-v7-26.0.0-alpha1-sources.jar!/android/support/v7/widget/RecyclerView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        <state relative-caret-position="222">
+          <caret line="10221" column="26" lean-forward="false" selection-start-line="10221" selection-start-column="26" selection-end-line="10221" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/model/Borrow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="14" column="22" lean-forward="false" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/fragments/FragmentItemPagerAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2346">
+          <caret line="146" column="54" lean-forward="false" selection-start-line="146" selection-start-column="54" selection-end-line="146" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/BooksAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-264">
+          <caret line="211" column="16" lean-forward="false" selection-start-line="211" selection-start-column="16" selection-end-line="211" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4193#4360#0" expanded="true" />
+            <element signature="e#4359#4360#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/MainActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/CustomSpinnerAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1058">
-          <caret line="48" column="0" lean-forward="true" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="72">
+          <caret line="27" column="12" lean-forward="false" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/api/ServiceGenerator.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mglowinski/library/adapters/BorrowBooksAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="15" column="54" lean-forward="true" selection-start-line="15" selection-start-column="54" selection-end-line="15" selection-end-column="54" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="2116">
+          <caret line="113" column="33" lean-forward="true" selection-start-line="113" selection-start-column="33" selection-end-line="113" selection-end-column="34" />
+          <folding />
         </state>
       </provider>
     </entry>

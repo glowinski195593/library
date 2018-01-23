@@ -26,9 +26,13 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,9 +66,12 @@ public class BooksFragment extends Fragment {
     private User user;
     private Spinner spinner;
     private CustomSpinnerAdapter spinAdapter;
-    private ArrayList<String> categoriesList = new ArrayList<>();
-    private boolean isBorrow;
+    private List<String> categoriesList = new ArrayList<>();
     private SOService service;
+
+    private int maxDaysToPickup = 7;
+    private int actualDaysToPickup;
+    private long diffDays;
 
     public BooksFragment() {
         // Required empty public constructor
@@ -79,8 +86,6 @@ public class BooksFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        //hardcode for test
-        //user = new User("59cdfd786eee35ffd5d73fa9", "maciej", "m@o2.pl", "pw");
         user = (User) getArguments().getSerializable("user");
         service = ServiceGenerator.createService(SOService.class);
     }
@@ -94,21 +99,15 @@ public class BooksFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.e("COUNT BOOKOS",Integer.toString(getFragmentManager().getBackStackEntryCount()));
+        prepareView(view);
         progress = ProgressDialog.show(getContext(), "Proszę czekać...",
                 "Trwa ładowanie listy książek", true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView = view.findViewById(R.id.my_recycler_view);
-        spinner = getView().findViewById(R.id.spinner);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         booksAdapter = new BooksAdapter(mapNumberOfBooks, getContext(), ALPHABETICAL_COMPARATOR, user.getUserId());
         recyclerView.setAdapter(booksAdapter);
         loadBorrowBooks();
-        searchView = view.findViewById(R.id.searchView);
-        EditText editText = searchView
-                .findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        editText.setTextColor(ContextCompat.getColor(getContext(), android.R.color.white));
     }
 
     private static List<Book> filter(List<Book> models, String query) {
@@ -147,7 +146,11 @@ public class BooksFragment extends Fragment {
         call.enqueue(new Callback<List<Borrow>>() {
             @Override
             public void onResponse(Call<List<Borrow>> call, Response<List<Borrow>> response) {
-                borrowListFromResponse = response.body();
+                try {
+                    borrowListFromResponse = checkDaysToPickup(response.body());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 loadListBooks();
             }
 
@@ -181,8 +184,7 @@ public class BooksFragment extends Fragment {
                     }
                 }
                 mapNumberOfBooks.put(book, counter);
-            }
-            else {
+            } else {
                 for (int z = 0; z < listCountBooks.size(); z++) {
                     if (book.getBookTitle().equals(listCountBooks.get(z).getBookTitle())) {
                         exist = true;
@@ -201,14 +203,10 @@ public class BooksFragment extends Fragment {
                         }
                     }
                     mapNumberOfBooks.put(book, counter);
-                }
-                else {
+                } else {
                     listBooksRepeated.add(book);
                 }
             }
-        }
-        for (int i = 0; i < listBooksRepeated.size(); i++) {
-            Log.e("i", listBooksRepeated.get(i).getBookTitle());
         }
     }
 
@@ -231,11 +229,9 @@ public class BooksFragment extends Fragment {
                 }
             }
         }
-        Collections.sort(categoriesList, new Comparator<String>()
-        {
+        Collections.sort(categoriesList, new Comparator<String>() {
             @Override
-            public int compare(String text1, String text2)
-            {
+            public int compare(String text1, String text2) {
                 return text1.compareToIgnoreCase(text2);
             }
         });
@@ -243,27 +239,12 @@ public class BooksFragment extends Fragment {
     }
 
     public void showBooksForChosenCategory() {
-        spinAdapter = new CustomSpinnerAdapter(
-                getContext(), categoriesList);
+        spinAdapter = new CustomSpinnerAdapter(getContext(), categoriesList);
         spinner.setAdapter(spinAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String category = categoriesList.get(i);
-                if (category.equals("Wszystkie"))
-                    listActualViewBooks = listCountBooks;
-                else {
-                    listBooksFilter.clear();
-                    for (Book book : listCountBooks) {
-                        for (int j = 0; j < book.getBookCategory().size(); j++) {
-                            if (book.getBookCategory().get(j).displayName().equals(category)) {
-                                listBooksFilter.add(book);
-                            }
-                        }
-                    }
-                    listActualViewBooks = listBooksFilter;
-                }
-
+                listActualViewBooks = filterBooksByCategory(categoriesList.get(i));
                 booksAdapter.updateAnswers(listActualViewBooks, mapNumberOfBooks, listBooksRepeated, borrowListFromResponse);
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
@@ -300,42 +281,10 @@ public class BooksFragment extends Fragment {
         final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         switch (item.getItemId()) {
             case R.id.my_profile:
-                ProfileFragment profileFragment = new ProfileFragment();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("user", user);
-                bundle.putSerializable("borrowList", (Serializable) borrowListFromResponse);
-                profileFragment.setArguments(bundle);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.frame_main_fragment_container, profileFragment,
-                                ProfileFragment.TAG)
-                        .addToBackStack(null)
-                        .commit();
+                showMyProfileFragment(fragmentManager);
                 break;
             case R.id.logout:
-                AlertDialog.Builder builder;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    builder = new AlertDialog.Builder(getContext(), android.R.style.Theme_Material_Dialog_Alert);
-                } else {
-                    builder = new AlertDialog.Builder(getContext());
-                }
-                builder.setTitle("Wylogowywanie")
-                        .setMessage("Czy na pewno chcesz się wylogować?")
-                        .setPositiveButton("tak", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                fragmentManager.beginTransaction()
-                                        .replace(R.id.frame_main_fragment_container, LoginFragment.newInstance(),
-                                                LoginFragment.TAG)
-                                        .commit();
-                                fragmentManager.popBackStack();
-                                Toast.makeText(getContext(), "Zostałeś wylogowany", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .setNegativeButton("nie", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // do nothing
-                            }
-                        })
-                        .show();
+                showLogoutPopup(fragmentManager);
                 break;
             default:
                 break;
@@ -349,5 +298,111 @@ public class BooksFragment extends Fragment {
             return a.getBookTitle().compareTo(b.getBookTitle());
         }
     };
+
+    public List<Borrow> checkDaysToPickup(List<Borrow> borrowListFromResponse) throws ParseException {
+        List<Borrow> list = borrowListFromResponse;
+        int counter = list.size();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        maxDaysToPickup = 7;
+        for (int i = 0; i < counter; i++) {
+            Date date = simpleDateFormat.parse(list.get(i).getDateBorrow());
+            Calendar cal2 = Calendar.getInstance();
+            Date dateActual = cal2.getTime();
+            long d1 = date.getTime();
+            long d2 = dateActual.getTime();
+            //in milliseconds
+            long diff = d2 - d1;
+            diffDays = diff / (24 * 60 * 60 * 1000);
+            actualDaysToPickup = 0;
+            actualDaysToPickup = maxDaysToPickup - Integer.parseInt(Long.toString(diffDays));
+            if (actualDaysToPickup == 0) {
+                delete(list.get(i).getBorrowId());
+                list.remove(i);
+                i = i - 1;
+                counter = counter - 1;
+            }
+        }
+        return list;
+    }
+
+    public void delete(String id) {
+        Call<Borrow> call = service.deleteBorrow(id);
+        call.enqueue(new Callback<Borrow>() {
+            @Override
+            public void onResponse(Call<Borrow> call, Response<Borrow> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Borrow> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public void showMyProfileFragment(final FragmentManager fragmentManager) {
+        ProfileFragment profileFragment = new ProfileFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("user", user);
+        bundle.putSerializable("borrowList", (Serializable) borrowListFromResponse);
+        profileFragment.setArguments(bundle);
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_main_fragment_container, profileFragment,
+                        ProfileFragment.TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void showLogoutPopup(final FragmentManager fragmentManager) {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(getContext(), android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(getContext());
+        }
+        builder.setTitle("Wylogowywanie")
+                .setMessage("Czy na pewno chcesz się wylogować?")
+                .setPositiveButton("tak", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.frame_main_fragment_container, LoginFragment.newInstance(),
+                                        LoginFragment.TAG)
+                                .commit();
+                        fragmentManager.popBackStack();
+                        Toast.makeText(getContext(), "Zostałeś wylogowany", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("nie", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .show();
+    }
+
+    public List<Book> filterBooksByCategory(String category) {
+        if (category.equals("Wszystkie"))
+            listActualViewBooks = listCountBooks;
+        else {
+            listBooksFilter.clear();
+            for (Book book : listCountBooks) {
+                for (int j = 0; j < book.getBookCategory().size(); j++) {
+                    if (book.getBookCategory().get(j).displayName().equals(category)) {
+                        listBooksFilter.add(book);
+                    }
+                }
+            }
+            listActualViewBooks = listBooksFilter;
+        }
+        return listActualViewBooks;
+    }
+    public void prepareView(View view) {
+        recyclerView = view.findViewById(R.id.my_recycler_view);
+        spinner = getView().findViewById(R.id.spinner);
+        searchView = view.findViewById(R.id.searchView);
+        EditText editText = searchView
+                .findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        editText.setTextColor(ContextCompat.getColor(getContext(), android.R.color.white));
+    }
 }
 

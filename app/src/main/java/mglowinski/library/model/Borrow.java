@@ -12,12 +12,10 @@ public class Borrow implements Serializable {
     private Book book;
     private String dateBorrow;
 
+    public Borrow() {}
+
     public String getBorrowId() {
         return borrowId;
-    }
-
-    public void setBorrowId(String borrowId) {
-        this.borrowId = borrowId;
     }
 
     public String getUserId() {

@@ -69,14 +69,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        Log.e("COUNT LOGIN",Integer.toString(getFragmentManager().getBackStackEntryCount()));
         super.onViewCreated(view, savedInstanceState);
-        nestedScrollView = view.findViewById(R.id.nestedScrollView);
-        textInputLayoutEmail = view.findViewById(R.id.textInputLayoutEmail);
-        textInputLayoutPassword = view.findViewById(R.id.textInputLayoutPassword);
-        textInputEditTextEmail = view.findViewById(R.id.textInputEditTextEmail);
-        textInputEditTextPassword = view.findViewById(R.id.textInputEditTextPassword);
-        appCompatButtonLogin = view.findViewById(R.id.appCompatButtonLogin);
+        prepareView(view);
         appCompatButtonLogin.setOnClickListener(this);
         inputValidation = new InputValidation(getContext());
     }
@@ -106,8 +100,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         } else {
             if (isNetworkAvailable()) {
                 getUser(textInputEditTextEmail.getText().toString().trim());
-            }
-            else {
+            } else {
                 Snackbar snack = Snackbar.make(getView(), "Brak dostępu do internetu :(", Snackbar.LENGTH_LONG);
                 TextView tv = snack.getView().findViewById(android.support.design.R.id.snackbar_text);
                 tv.setTextColor(Color.WHITE);
@@ -130,15 +123,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 user = response.body();
-                if(user != null) {
+                if (user != null) {
                     loadBooksFragment(user);
-                }
-                else {
-                        // Snack Bar to show success message that record is wrong
-                        Snackbar snack = Snackbar.make(getView(), getString(R.string.error_valid_email_password), Snackbar.LENGTH_LONG);
-                        TextView tv = snack.getView().findViewById(android.support.design.R.id.snackbar_text);
-                        tv.setTextColor(Color.WHITE);
-                        snack.show();
+                } else {
+                    Snackbar snack = Snackbar.make(getView(), getString(R.string.error_valid_email_password), Snackbar.LENGTH_LONG);
+                    TextView tv = snack.getView().findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setTextColor(Color.WHITE);
+                    snack.show();
                 }
             }
 
@@ -148,12 +139,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             }
         });
     }
+
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
     public void loadBooksFragment(User user) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         BooksFragment booksFragment = new BooksFragment();
@@ -165,6 +158,15 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 .addToBackStack(null)
                 .commit();
         emptyInputEditText();
+    }
+
+    public void prepareView(View view) {
+        nestedScrollView = view.findViewById(R.id.nestedScrollView);
+        textInputLayoutEmail = view.findViewById(R.id.textInputLayoutEmail);
+        textInputLayoutPassword = view.findViewById(R.id.textInputLayoutPassword);
+        textInputEditTextEmail = view.findViewById(R.id.textInputEditTextEmail);
+        textInputEditTextPassword = view.findViewById(R.id.textInputEditTextPassword);
+        appCompatButtonLogin = view.findViewById(R.id.appCompatButtonLogin);
     }
 }
 

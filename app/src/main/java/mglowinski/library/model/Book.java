@@ -16,56 +16,38 @@ public class Book implements Serializable {
     private List<Category> bookCategory;
     private String bookPublicationYear;
 
-    public String getBookId() {
-        return bookId;
+    public Book(String bookId, String bookTitle, String bookAuthor, String bookIsbn, String bookDescription, List<Category> bookCategory, String bookPublicationYear) {
+        this.bookId = bookId;
+        this.bookTitle = bookTitle;
+        this.bookAuthor = bookAuthor;
+        this.bookIsbn = bookIsbn;
+        this.bookDescription = bookDescription;
+        this.bookCategory = bookCategory;
+        this.bookPublicationYear = bookPublicationYear;
     }
 
-    public void setBookId(String bookId) {
-        this.bookId = bookId;
+    public String getBookId() {
+        return bookId;
     }
 
     public String getBookTitle() {
         return bookTitle;
     }
 
-    public void setBookTitle(String bookTitle) {
-        this.bookTitle = bookTitle;
-    }
-
     public String getBookAuthor() {
         return bookAuthor;
-    }
-
-    public void setBookAuthor(String bookAuthor) {
-        this.bookAuthor = bookAuthor;
     }
 
     public String getBookIsbn() {
         return bookIsbn;
     }
 
-    public void setBookIsbn(String bookIsbn) {
-        this.bookIsbn = bookIsbn;
-    }
-
     public String getBookDescription() {
         return bookDescription;
     }
 
-    public void setBookDescription(String bookDescription) {
-        this.bookDescription = bookDescription;
-    }
-
     public List<Category> getBookCategory() {
         return bookCategory;
-    }
-
-    public void setBookCategory(List<Category> bookCategory) {
-        this.bookCategory = bookCategory;
-    }
-
-    public void setBookPublicationYear(String bookPublicationYear) {
-        this.bookPublicationYear = bookPublicationYear;
     }
 
     public String getBookPublicationYear() {

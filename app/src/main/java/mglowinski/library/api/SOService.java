@@ -13,6 +13,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface SOService {
@@ -28,4 +29,7 @@ public interface SOService {
 
     @GET("user")
     Call<User> getUserByEmail(@Query("email") String email);
+
+    @GET("borrows/{borrowId}")
+    Call<Borrow> deleteBorrow(@Path("borrowId") String borrowId);
 }

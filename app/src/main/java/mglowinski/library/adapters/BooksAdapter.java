@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +33,6 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
     private String userId;
     private List<Book> listBooksRepeated;
     private List<Book> listBooksToSend;
-    private PagerFragment pagerFragment;
     private List<Borrow> borrowListFromResponse;
     private final SortedList<Book> sortedList = new SortedList<>(Book.class, new SortedList.Callback<Book>() {
         @Override
@@ -76,20 +74,24 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView title, author, numberOfBooks;
-        ImageView imageBookAvaible;
-        ImageView imageBookNotAvaible;
+        ImageView imageBookAvailable;
+        ImageView imageBookInaccessible;
         RelativeLayout expandableLayout;
         Button button;
 
-        public MyViewHolder(View itemView) {
-            super(itemView);
-            this.imageBookAvaible = itemView.findViewById(R.id.image_book_avaible);
-            this.imageBookNotAvaible = itemView.findViewById(R.id.image_book_not_avaible);
-            this.expandableLayout = itemView.findViewById(R.id.expandableLayout);
-            this.title = itemView.findViewById(R.id.titleId);
-            this.author = itemView.findViewById(R.id.authorId);
-            this.button = itemView.findViewById(R.id.buttonId);
-            this.numberOfBooks = itemView.findViewById(R.id.numberOfBooksId);
+        public MyViewHolder(View view) {
+            super(view);
+            prepareView(view);
+        }
+
+        public void prepareView(View view) {
+            this.imageBookAvailable = view.findViewById(R.id.image_book_avaible);
+            this.imageBookInaccessible = view.findViewById(R.id.image_book_not_avaible);
+            this.expandableLayout = view.findViewById(R.id.expandableLayout);
+            this.title = view.findViewById(R.id.titleId);
+            this.author = view.findViewById(R.id.authorId);
+            this.button = view.findViewById(R.id.buttonId);
+            this.numberOfBooks = view.findViewById(R.id.numberOfBooksId);
         }
     }
 
@@ -122,22 +124,8 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
         final MyViewHolder myViewHolder = new MyViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if (!check) {
-                    myViewHolder.expandableLayout.animate()
-                            .alpha(0.0f)
-                            .setDuration(1000);
-                    myViewHolder.expandableLayout.setVisibility(View.GONE);
-                    check = true;
-                    //  myViewHolder.schedule.setVisibility(View.VISIBLE);
-
-                } else {
-                    myViewHolder.expandableLayout.setVisibility(View.VISIBLE);
-                    myViewHolder.expandableLayout.animate()
-                            .alpha(1.0f)
-                            .setDuration(1000);
-                    check = false;
-                }
+            public void onClick(View view) {
+                showOrHideLayout(myViewHolder);
             }
         });
         return myViewHolder;
@@ -148,84 +136,20 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
         final Book book = sortedList.get(listPosition);
         final int count = mapNumberOfBooks.get(book);
         if (count != 0) {
-            holder.imageBookAvaible.setVisibility(View.VISIBLE);
-            holder.imageBookNotAvaible.setVisibility(View.GONE);
+            showAvailableIcon(holder);
             holder.button.setVisibility(View.VISIBLE);
             holder.button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    listBooksToSend = new ArrayList<>();
-                    boolean exist, exist2;
-                    exist = false;
-                    if (borrowListFromResponse.size() == 0) {
-                        listBooksToSend.add(book);
-                        for (int i = 0; i < listBooksRepeated.size(); i++) {
-                            if (book.getBookTitle().equals(listBooksRepeated.get(i).getBookTitle())) {
-                                listBooksToSend.add(listBooksRepeated.get(i));
-                            }
-                        }
-                    }
-                    else {
-                        for (int i = 0; i < borrowListFromResponse.size(); i++) {
-                            if (book.getBookId().equals(borrowListFromResponse.get(i).getBook().getBookId())) {
-                                exist = true;
-                                    //listBooksToSend.add(book);
-                            }
-                        }
-                        if(!exist) {
-                            listBooksToSend.add(book);
-                        }
-
-                        for (int i = 0; i < listBooksRepeated.size(); i++) {
-                            exist2 = false;
-                            if (book.getBookTitle().equals(listBooksRepeated.get(i).getBookTitle())) {
-                                for (int j = 0; j < borrowListFromResponse.size(); j++) {
-                                    if (listBooksRepeated.get(i).getBookTitle().equals(borrowListFromResponse.get(j).getBook().getBookTitle())) {
-                                        exist2 = true;
-                                    }
-                                    if (!listBooksRepeated.get(i).getBookId().equals(borrowListFromResponse.get(j).getBook().getBookId())
-                                            && listBooksRepeated.get(i).getBookTitle().equals(borrowListFromResponse.get(j).getBook().getBookTitle())) {
-                                        listBooksToSend.add(listBooksRepeated.get(i));
-                                    }
-                                }
-                                if(!exist2) {
-                                    listBooksToSend.add(listBooksRepeated.get(i));
-                                }
-                            }
-                        }
-                    }
-                    //listBooksToSend.add(book);
-                    Log.e("TAGUS", Integer.toString(listBooksToSend.size()));
-
-                    PagerFragment pagerFragment = new PagerFragment();
+                    listBooksToSend = getAllBooksWithTheSameTitle(book);
                     Bundle bundle = new Bundle();
                     bundle.putInt("CURRENT_POSITION", 0);
                     bundle.putSerializable("books", (Serializable) listBooksToSend);
                     bundle.putString("userId", userId);
-                    pagerFragment.setArguments(bundle);
-                    FragmentActivity activity = (FragmentActivity) context;
-                    activity.getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.frame_main_fragment_container, pagerFragment, "swipe_view_fragment")
-                            .addToBackStack(null)
-                            .commit();
-
-                   /* Log.e("TAGUS", Integer.toString(listBooksToSend.size()));
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("book", book);
-                    bundle.putSerializable("userId", userId);
-                    RentBookFragment rentBookFragment = new RentBookFragment();
-                    rentBookFragment.setArguments(bundle);
-                    FragmentActivity activity = (FragmentActivity) context;
-                    activity.getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.frame_main_fragment_container, rentBookFragment, RentBookFragment.TAG)
-                            .addToBackStack(null)
-                            .commit();*/
+                    showBookDetailsFragment(bundle);
                 }
             });
         } else if (count == 0) {
-            holder.imageBookAvaible.setVisibility(View.GONE);
-            holder.imageBookNotAvaible.setVisibility(View.VISIBLE);
+            showInaccessibleIcon(holder);
             holder.button.setVisibility(View.GONE);
         }
         holder.title.setText(book.getBookTitle());
@@ -245,5 +169,85 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
         this.listBooksRepeated = listBooksRepeated;
         this.borrowListFromResponse = borrowListFromResponse;
         notifyDataSetChanged();
+    }
+
+    public void showOrHideLayout(MyViewHolder myViewHolder) {
+        if (!check) {
+            myViewHolder.expandableLayout.animate()
+                    .alpha(0.0f)
+                    .setDuration(1000);
+            myViewHolder.expandableLayout.setVisibility(View.GONE);
+            check = true;
+
+        } else {
+            myViewHolder.expandableLayout.setVisibility(View.VISIBLE);
+            myViewHolder.expandableLayout.animate()
+                    .alpha(1.0f)
+                    .setDuration(1000);
+            check = false;
+        }
+    }
+
+    public void showAvailableIcon(MyViewHolder myViewHolder) {
+        myViewHolder.imageBookAvailable.setVisibility(View.VISIBLE);
+        myViewHolder.imageBookInaccessible.setVisibility(View.GONE);
+    }
+
+    public void showInaccessibleIcon(MyViewHolder myViewHolder) {
+        myViewHolder.imageBookAvailable.setVisibility(View.GONE);
+        myViewHolder.imageBookInaccessible.setVisibility(View.VISIBLE);
+    }
+
+    public List<Book> getAllBooksWithTheSameTitle(Book book) {
+        List<Book> listBooksToSend = new ArrayList<>();
+        boolean exist, exist2;
+        exist = false;
+        if (borrowListFromResponse.size() == 0) {
+            listBooksToSend.add(book);
+            for (int i = 0; i < listBooksRepeated.size(); i++) {
+                if (book.getBookTitle().equals(listBooksRepeated.get(i).getBookTitle())) {
+                    listBooksToSend.add(listBooksRepeated.get(i));
+                }
+            }
+        } else {
+            for (int i = 0; i < borrowListFromResponse.size(); i++) {
+                if (book.getBookId().equals(borrowListFromResponse.get(i).getBook().getBookId())) {
+                    exist = true;
+                }
+            }
+            if (!exist) {
+                listBooksToSend.add(book);
+            }
+
+            for (int i = 0; i < listBooksRepeated.size(); i++) {
+                exist2 = false;
+                if (book.getBookTitle().equals(listBooksRepeated.get(i).getBookTitle())) {
+                    for (int j = 0; j < borrowListFromResponse.size(); j++) {
+                        if (listBooksRepeated.get(i).getBookTitle().equals(borrowListFromResponse.get(j).getBook().getBookTitle())) {
+                            exist2 = true;
+                        }
+                        if (!listBooksRepeated.get(i).getBookId().equals(borrowListFromResponse.get(j).getBook().getBookId())
+                                && listBooksRepeated.get(i).getBookTitle().equals(borrowListFromResponse.get(j).getBook().getBookTitle())) {
+                            listBooksToSend.add(listBooksRepeated.get(i));
+                        }
+                    }
+                    if (!exist2) {
+                        listBooksToSend.add(listBooksRepeated.get(i));
+                    }
+                }
+            }
+        }
+        return listBooksToSend;
+    }
+
+    public void showBookDetailsFragment(Bundle bundle) {
+        PagerFragment pagerFragment = new PagerFragment();
+        pagerFragment.setArguments(bundle);
+        FragmentActivity activity = (FragmentActivity) context;
+        activity.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_main_fragment_container, pagerFragment, "swipe_view_fragment")
+                .addToBackStack(null)
+                .commit();
     }
 }

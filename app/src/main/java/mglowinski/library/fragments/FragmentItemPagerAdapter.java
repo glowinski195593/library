@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.List;
 
 import mglowinski.library.R;
@@ -34,7 +35,7 @@ public class FragmentItemPagerAdapter extends FragmentStatePagerAdapter {
     private List<Book> data;
     private String userId;
 
-    public FragmentItemPagerAdapter(FragmentManager fm, List<Book> data, String userId){
+    public FragmentItemPagerAdapter(FragmentManager fm, List<Book> data, String userId) {
         super(fm);
         this.data = data;
         this.userId = userId;
@@ -44,13 +45,7 @@ public class FragmentItemPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         Fragment fragment = new PageFragment();
         Bundle args = new Bundle();
-        args.putString(PageFragment.ISBN, data.get(position).getBookIsbn());
-        args.putString(PageFragment.BOOK_TITLE, data.get(position).getBookTitle());
-        args.putString(PageFragment.BOOK_AUTHOR, data.get(position).getBookAuthor());
-        args.putString(PageFragment.BOOK_DESCRIPTION, data.get(position).getBookDescription());
-        args.putSerializable(PageFragment.BOOK, data.get(position));
-        args.putString(PageFragment.USERID, userId);
-        args.putString(PageFragment.BOOK_YEAR, data.get(position).getBookPublicationYear());
+        putArguments(args, position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,7 +61,7 @@ public class FragmentItemPagerAdapter extends FragmentStatePagerAdapter {
         return data.size();
     }
 
-    public static class PageFragment extends Fragment implements View.OnClickListener{
+    public static class PageFragment extends Fragment implements View.OnClickListener {
         public static final String ISBN = "isbn";
         public static final String BOOK_TITLE = "bookTitle";
         public static final String BOOK_AUTHOR = "bookAuthor";
@@ -83,25 +78,14 @@ public class FragmentItemPagerAdapter extends FragmentStatePagerAdapter {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_pager, container, false);
-            ((TextView) rootView.findViewById(R.id.rentBookIsbnId)).setText(
-                    getArguments().getString(ISBN));
-            ((TextView) rootView.findViewById(R.id.rentBookTitleId)).setText(
-                    getArguments().getString(BOOK_TITLE));
-            ((TextView) rootView.findViewById(R.id.rentBookAuthorId)).setText(
-                    getArguments().getString(BOOK_AUTHOR));
-            ((TextView) rootView.findViewById(R.id.descriptionId)).setText(
-                    getArguments().getString(BOOK_DESCRIPTION));
-            ((AppCompatTextView) rootView.findViewById(R.id.rentBookYear)).setText(
-                    getArguments().getString(BOOK_YEAR));
-            ((TextView) rootView.findViewById(R.id.descriptionId)).setMovementMethod(new ScrollingMovementMethod());
-            button = rootView.findViewById(R.id.submitButtonId);
-            datePicker = rootView.findViewById(R.id.datePicker);
+            View view = inflater.inflate(R.layout.fragment_pager, container, false);
+            prepareView(view);
             book = (Book) getArguments().getSerializable(BOOK);
             userId = getArguments().getString(USERID);
             button.setOnClickListener(this);
-            return rootView;
+            return view;
         }
+
         @Override
         public void onClick(View v) {
             Snackbar snack = Snackbar.make(v, "Wypożyczenie zostało zapisane", Snackbar.LENGTH_LONG);
@@ -112,32 +96,61 @@ public class FragmentItemPagerAdapter extends FragmentStatePagerAdapter {
             fm.popBackStack();
             borrowBook();
         }
+
         public void borrowBook() {
-            String date;
             Borrow borrow = new Borrow();
             borrow.setUserId(userId);
             borrow.setBook(book);
-            int day = datePicker.getDayOfMonth();
-            int month = datePicker.getMonth() + 1;
-            int year = datePicker.getYear();
-            if(month < 10)
-                date = Integer.toString(day) + ".0" + Integer.toString(month) + "." + Integer.toString(year);
-            else
-                date = Integer.toString(day) + "." + Integer.toString(month) + "." + Integer.toString(year);
-            borrow.setDateBorrow(date);
+            borrow.setDateBorrow(getDate());
 
             Call<Borrow> call = service.createBorrow(borrow);
             call.enqueue(new Callback<Borrow>() {
                 @Override
                 public void onResponse(Call<Borrow> call, Response<Borrow> response) {
-                    //Log.e(TAG, "GIT");
+
                 }
 
                 @Override
                 public void onFailure(Call<Borrow> call, Throwable t) {
-                    //Log.e(TAG, "FAIL");
+
                 }
             });
         }
+
+        public String getDate() {
+            String date;
+            int day = datePicker.getDayOfMonth();
+            int month = datePicker.getMonth() + 1;
+            int year = datePicker.getYear();
+            if (month < 10)
+                date = Integer.toString(day) + ".0" + Integer.toString(month) + "." + Integer.toString(year);
+            else
+                date = Integer.toString(day) + "." + Integer.toString(month) + "." + Integer.toString(year);
+            return date;
+        }
+        public void prepareView(View view) {
+            ((TextView) view.findViewById(R.id.rentBookIsbnId)).setText(
+                    getArguments().getString(ISBN));
+            ((TextView) view.findViewById(R.id.rentBookTitleId)).setText(
+                    getArguments().getString(BOOK_TITLE));
+            ((TextView) view.findViewById(R.id.rentBookAuthorId)).setText(
+                    getArguments().getString(BOOK_AUTHOR));
+            ((TextView) view.findViewById(R.id.descriptionId)).setText(
+                    getArguments().getString(BOOK_DESCRIPTION));
+            ((AppCompatTextView) view.findViewById(R.id.rentBookYear)).setText(
+                    getArguments().getString(BOOK_YEAR));
+            ((TextView) view.findViewById(R.id.descriptionId)).setMovementMethod(new ScrollingMovementMethod());
+            button = view.findViewById(R.id.submitButtonId);
+            datePicker = view.findViewById(R.id.datePicker);
+        }
+    }
+    public void putArguments(Bundle args, int position) {
+        args.putString(PageFragment.ISBN, data.get(position).getBookIsbn());
+        args.putString(PageFragment.BOOK_TITLE, data.get(position).getBookTitle());
+        args.putString(PageFragment.BOOK_AUTHOR, data.get(position).getBookAuthor());
+        args.putString(PageFragment.BOOK_DESCRIPTION, data.get(position).getBookDescription());
+        args.putSerializable(PageFragment.BOOK, data.get(position));
+        args.putString(PageFragment.USERID, userId);
+        args.putString(PageFragment.BOOK_YEAR, data.get(position).getBookPublicationYear());
     }
 }

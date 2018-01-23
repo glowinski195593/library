@@ -30,33 +30,34 @@ public class MainActivity extends AppCompatActivity {
         int count = getSupportFragmentManager().getBackStackEntryCount();
 
         if (count == 2) {
-            AlertDialog.Builder builder;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
-            } else {
-                builder = new AlertDialog.Builder(this);
-            }
-            builder.setTitle("Wylogowywanie")
-                    .setMessage("Czy na pewno chcesz się wylogować?")
-                    .setPositiveButton("tak", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            getSupportFragmentManager().popBackStack();
-                            Toast.makeText(getApplicationContext(), "Zostałeś wylogowany", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .setNegativeButton("nie", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    })
-                    .show();
-        }
-        else if (count == 1) {
+            showLogoutPopup();
+        } else if (count == 1) {
             finish();
-        }
-        else {
+        } else {
             getSupportFragmentManager().popBackStack();
         }
+    }
 
+    public void showLogoutPopup() {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+        builder.setTitle("Wylogowywanie")
+                .setMessage("Czy na pewno chcesz się wylogować?")
+                .setPositiveButton("tak", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        getSupportFragmentManager().popBackStack();
+                        Toast.makeText(getApplicationContext(), "Zostałeś wylogowany", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("nie", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .show();
     }
 }

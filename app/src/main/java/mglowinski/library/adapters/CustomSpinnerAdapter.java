@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import mglowinski.library.R;
 
@@ -20,16 +21,13 @@ import mglowinski.library.R;
  * Created by macglo on 21.08.17.
  */
 
-
-// Custom Adapter for Spinner
 public class CustomSpinnerAdapter extends ArrayAdapter<String> {
 
     private Context context;
-    private ArrayList<String> data;
-    public Resources res;
-    LayoutInflater inflater;
+    private List<String> data;
+    private LayoutInflater inflater;
 
-    public CustomSpinnerAdapter(Context context, ArrayList<String> objects) {
+    public CustomSpinnerAdapter(Context context, List<String> objects) {
         super(context, R.layout.row_spinner_category, objects);
 
         this.context = context;
@@ -49,12 +47,9 @@ public class CustomSpinnerAdapter extends ArrayAdapter<String> {
 
     public View getCustomView(int position, View convertView, ViewGroup parent) {
 
-        View row = inflater.inflate(R.layout.row_spinner_category, parent, false);
-
-        TextView category = row.findViewById(R.id.bookCategory);
-
+        View view = inflater.inflate(R.layout.row_spinner_category, parent, false);
+        TextView category = view.findViewById(R.id.bookCategory);
         category.setText(data.get(position).toString());
-
-        return row;
+        return view;
     }
 }
